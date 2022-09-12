@@ -4,7 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\SubCategoryController;
-use App\Models\SubCategory;
+use App\Http\Controllers\PercentageController;
+use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +28,7 @@ Route::get('/subcategory/list',[SubCategoryController::class,'index']);
 Route::get('/subcategory/show/{id}',[SubCategoryController::class,'show']);
 Route::put('/subcategory/update/{id}',[SubCategoryController::class,'update']);
 Route::delete('/subcategory/delete/{id}',[SubCategoryController::class,'destroy']);
+
+//Percentage
+Route::post('/percentage/create',[PercentageController::class,'store']);
+Route::put('/percentage/update/{id}',[PercentageController::class,'update']);
