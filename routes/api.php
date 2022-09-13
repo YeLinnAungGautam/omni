@@ -2,9 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\PercentageController;
+use App\Http\Controllers\CategoryController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -21,6 +21,13 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+//Category 
+Route::post('/category/create',[CategoryController::class,'store']);
+Route::get('/category/list',[CategoryController::class,'index']);
+Route::put('/category/update/{id}',[CategoryController::class,'update']);
+Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
 
 // SubCategory 
 Route::post('/subcategory/create',[SubCategoryController::class,'store']);
