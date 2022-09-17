@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\PercentageController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SliderController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -39,3 +40,11 @@ Route::delete('/subcategory/delete/{id}',[SubCategoryController::class,'destroy'
 //Percentage
 Route::post('/percentage/create',[PercentageController::class,'store']);
 Route::put('/percentage/update/{id}',[PercentageController::class,'update']);
+
+//Slider 
+Route::post('/slider/create',[SliderController::class,'store']);
+Route::get('/slider/list',[SliderController::class,'index']);
+Route::put('/slider/update/{id}',[SliderController::class,'update']);
+Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
+
+

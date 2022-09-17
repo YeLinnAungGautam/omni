@@ -41,7 +41,7 @@ class PercentageController extends Controller
             return response()->json([
                 'status' => 'fail',
                 'message' =>  "Not Found"    
-            ], 201);  
+            ], 404);  
         }
     }
 }
