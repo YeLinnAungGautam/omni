@@ -6,6 +6,7 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\PercentageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\ProductController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Category 
 Route::post('/category/create',[CategoryController::class,'store']);
 Route::get('/category/list',[CategoryController::class,'index']);
+Route::get('/category/show/{id}',[CategoryController::class,'show']);
 Route::put('/category/update/{id}',[CategoryController::class,'update']);
 Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
 
@@ -46,5 +48,12 @@ Route::post('/slider/create',[SliderController::class,'store']);
 Route::get('/slider/list',[SliderController::class,'index']);
 Route::put('/slider/update/{id}',[SliderController::class,'update']);
 Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
+
+//Product 
+Route::post('/product/create',[ProductController::class,'store']);
+Route::get('/product/list',[ProductController::class,'index']);
+Route::get('/product/show/{id}',[ProductController::class,'show']);
+Route::put('/product/update/{id}',[ProductController::class,'update']);
+Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\SubCategory;
 
 class SubCategoryController extends Controller
@@ -14,7 +15,7 @@ class SubCategoryController extends Controller
      */
     public function index()
     {
-        $subcategory = SubCategory::all();
+        $subcategory = SubCategory::with('Category')->get();
         return $subcategory;
     }
 
@@ -38,16 +39,25 @@ class SubCategoryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string',
+            'category_id' => 'required',
         ]);
-        $subcategory = SubCategory::create([
-            'name' => $data['name'],
-        ]);
-        if($subcategory){
+        $category_id = Category::find($request->category_id);
+        if($category_id){
+            $sub_category = SubCategory::create([
+                'name' => $data['name'],
+                'category_id' => $category_id->id,
+            ]);
             return response()->json([
                 'status' => 'success',
-                'data' =>  $subcategory    
+                'data' => $sub_category
             ], 201);
-        } 
+        }
+            else{
+                return response()->json([
+                    'status' => 'fail',
+                    'message' =>  "Not Found"   
+                ], 404); 
+            }
     }
 
     /**
@@ -58,11 +68,11 @@ class SubCategoryController extends Controller
      */
     public function show($id)
     {
-        $subcategory_show = SubCategory::find($id);
-        if($subcategory_show){
+        $sub_category = SubCategory::with('Category')->find($id);
+        if($sub_category){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $subcategory_show    
+                'data' =>  $sub_category    
             ], 201);
         }
         else{
@@ -91,26 +101,29 @@ class SubCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id , Request $request)
+    public function update(Request $request, $id)
     {
         $data = $request->validate([
             'name' => 'required|string',
+            'category_id' => 'required',
         ]);
-        $subcategory_update = SubCategory::find($id);
-        if($subcategory_update){
-            $subcategory_update->update([
-                'name' => $data['name']
+        $subcategory_find_to_update = SubCategory::find($id);
+        $find_category_id = Category::find($request->category_id);
+        if($subcategory_find_to_update && $find_category_id){
+            $subcategory_find_to_update->update([
+                'name' => $data['name'],
+                'category_id' => $data['category_id']
             ]);
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Found"    
+                'message' =>  "Successfully Updated"   
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"    
-            ], 404);  
+                'message' =>  "Not Found"   
+            ], 404);
         }
     }
 
