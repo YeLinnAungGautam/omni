@@ -14,4 +14,7 @@ class Slider extends Model
         'image',
         'store_id'
     ];
+    public function Store(){
+        return $this->hasMany(Store::class,'id','store_id');
+    }
 }

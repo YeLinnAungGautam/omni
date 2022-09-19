@@ -17,7 +17,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $slider = Slider::all();
+        $slider = Slider::with('Store')->get();
         return $slider;
     }
 

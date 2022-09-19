@@ -12,4 +12,7 @@ class Store extends Model
     protected $fillable = [
         'brand_name'
     ];
+    public function Sider(){
+        return $this->belongsTo(Slider::class,'store_id');
+    }
 }
