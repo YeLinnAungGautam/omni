@@ -126,7 +126,7 @@ class SubCategoryController extends Controller
             ], 404);
         }
     }
-
+ 
     /**
      * Remove the specified resource from storage.
      *

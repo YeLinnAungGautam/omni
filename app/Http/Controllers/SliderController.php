@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Slider;
+use App\Models\Store;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,7 +30,7 @@ class SliderController extends Controller
     {
         //
     }
-
+ 
     /**
      * Store a newly created resource in storage.
      *
@@ -41,22 +42,33 @@ class SliderController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
+            'store_id' => 'required'
         ]);
-        $file= $request->file('image');
-        $filename= date('YmdHi').$file->getClientOriginalName();
-        $file-> move(public_path('storage/slider_image'), $filename);
-        $slider = Slider::create([
-            'name' => $data['name'],
-            'image' => $filename,
-        ]);
-        $slider_image_name = Slider::latest()->first()->image;
-        return response()->json([
-            'status' => 'success',
-            'data' =>  $slider,
-            'image-url' => Storage::url("slider_image/".$slider_image_name)
-            //if get the error of not found for image url,
-            //please run the "php artisan storage:link" command.
-        ], 201);
+        $store_id = Store::find($request->store_id);
+        if($store_id){
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('storage/slider_image'), $filename);
+            $slider = Slider::create([
+                'name' => $data['name'],
+                'image' => $filename,
+                'store_id' => $store_id->id
+            ]);
+            $slider_image_name = Slider::latest()->first()->image;
+            return response()->json([
+                'status' => 'success',
+                'data' =>  $slider,
+                'image-url' => Storage::url("slider_image/".$slider_image_name)
+                //if get the error of not found for image url,
+                //please run the "php artisan storage:link" command.
+            ], 201);
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"    
+            ], 404);
+        }
     }
 
     /**
@@ -94,9 +106,11 @@ class SliderController extends Controller
         $data = $request->validate([
             'slider_name' => 'required|string',
             'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
+            'store_id' => 'required'
         ]);
         $slider_find_to_update = Slider::find($id);
-        if($slider_find_to_update){
+        $storeid_to_update = Store::find($id);
+        if($slider_find_to_update && $storeid_to_update){
             if($request->hasFile('image') != null){
                 $file= $request->file('image');
                 $filename= date('YmdHi').$file->getClientOriginalName();
@@ -105,7 +119,8 @@ class SliderController extends Controller
                     File::delete(public_path('storage/slider_image/'.$slider_find_to_update->image));
                     $slider_find_to_update->update([
                         'name' => $data['slider_name'],
-                        'image' => $filename
+                        'image' => $filename,
+                        'store_id' => $data['store_id']
                     ]);
                     return response()->json([
                         'status' => 'success',
@@ -115,7 +130,8 @@ class SliderController extends Controller
                 else{   
                     $slider_find_to_update->update([
                         'name' => $data['slider_name'],
-                        'image' => $filename
+                        'image' => $filename,
+                        'store_id' => $data['store_id']
                     ]);
                     return response()->json([
                         'status' => 'success',
@@ -126,6 +142,7 @@ class SliderController extends Controller
             else{
                 $slider_find_to_update->update([
                     'name' => $data['slider_name'],
+                    'store_id' => $data['store_id']
                 ]);
                 return response()->json([
                     'status' => 'success',

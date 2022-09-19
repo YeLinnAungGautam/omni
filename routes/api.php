@@ -7,6 +7,7 @@ use App\Http\Controllers\PercentageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StoreController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -42,6 +43,10 @@ Route::delete('/subcategory/delete/{id}',[SubCategoryController::class,'destroy'
 //Percentage
 Route::post('/percentage/create',[PercentageController::class,'store']);
 Route::put('/percentage/update/{id}',[PercentageController::class,'update']);
+
+//Store
+Route::post('/store/create',[StoreController::class,'store']);
+Route::put('/store/update/{id}',[StoreController::class,'update']);
 
 //Slider 
 Route::post('/slider/create',[SliderController::class,'store']);
