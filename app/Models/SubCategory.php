@@ -13,7 +13,13 @@ class SubCategory extends Model
         'name',
         'category_id'
     ];
+    // public function Category(){
+    //     return $this->hasMany(Category::class,'category_id','id');
+    // } 
     public function Category(){
-        return $this->hasMany(Category::class,'id','category_id');
+        return $this->belongsTo(Category::class,'category_id');
     }
+    // public function Category(){
+    //     return $this->belongsTo(Category::class,'id');
+    // } 
 }

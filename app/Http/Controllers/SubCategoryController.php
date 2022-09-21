@@ -73,7 +73,7 @@ class SubCategoryController extends Controller
             return response()->json([
                 'status' => 'success',
                 'data' =>  $sub_category    
-            ], 201);
+            ], 201); 
         }
         else{
             return response()->json([

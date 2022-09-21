@@ -17,7 +17,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-       $category = Category::all();
+    //    $category = Category::all();
+        $category = Category::with('SubCategory')->get();
        return $category;
     }
 
@@ -68,12 +69,12 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
+        $category = Category::with('SubCategory')->find($id);
         if($category){
             return response()->json([
                 'status' => 'success',
                 'data' =>  $category    
-            ], 201);
+            ], 201); 
         }
         else{
             return response()->json([
