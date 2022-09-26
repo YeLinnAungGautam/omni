@@ -64,10 +64,22 @@ class SliderController extends Controller
             ], 201);
         }
         else{
+            $file= $request->file('image');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('storage/slider_image'), $filename);
+            $slider = Slider::create([
+                'name' => $data['name'],
+                'image' => $filename,
+                'store_id' => null
+            ]);
+            $slider_image_name = Slider::latest()->first()->image;
             return response()->json([
-                'status' => 'fail',
-                'message' =>  "Not Found"    
-            ], 404);
+                'status' => 'success',
+                'data' =>  $slider,
+                'image-url' => Storage::url("slider_image/".$slider_image_name)
+                //if get the error of not found for image url,
+                //please run the "php artisan storage:link" command.
+            ], 201);
         }
     }
 

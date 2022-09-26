@@ -41,11 +41,40 @@ class ProductController extends Controller
             'name' => 'required|string',
             'price' => 'required|string',
             'item_description' => 'required|string',
-            'thumbnails' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
+            'thumbnails' => 'required',
             'category_id' => 'required',
             'percentage_id' => 'required',
             'item_id' => 'required'
+            // 'name' => 'required|string',
+            // 'price' => 'required|string',
+            // 'item_description' => 'required|string',
+            // 'thumbnails' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
+            // 'category_id' => 'nullable',
+            // 'percentage_id' => 'nullable',
+            // 'item_id' => 'required'
+            
         ]);
+        $file= $request->file('image');
+            foreach($request->file('thumbnails') as $image)
+            {   
+                $name=$image->date('YmdHi').$file->getClientOriginalName();
+                $image->move(public_path('storage/product_image'), $name);  
+                $date[] = $image->getClientOriginalName() ;  
+            }
+            $product = Product::create([
+                'name' => $data['name'],
+                'price' => $data['price'],
+                'item_description' => $data['item_description'],
+                'category_id' => $data['category_id'],
+                'percentage_id' => $data['percentage_id'],
+                'item_id' => $data['item_id'],
+                'thumbnails' => json_encode($date),
+            ]);
+            return response()->json([
+                'status' => 'success',
+                'data' =>  $product,
+            ], 201);
+    
     }
 
     /**
