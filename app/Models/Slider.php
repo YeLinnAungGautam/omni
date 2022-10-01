@@ -15,6 +15,6 @@ class Slider extends Model
         'store_id'
     ];
     public function Store(){
-        return $this->hasMany(Store::class,'id','store_id');
-    }
+        return $this->belongsTo(Slider::class,'store_id');
+    } 
 }

@@ -47,6 +47,8 @@ Route::put('/percentage/update/{id}',[PercentageController::class,'update']);
 //Store
 Route::post('/store/create',[StoreController::class,'store']);
 Route::put('/store/update/{id}',[StoreController::class,'update']);
+Route::get('/store/show/{id}',[StoreController::class,'show']);
+Route::delete('/store/delete/{id}',[StoreController::class,'destroy']);
 
 //Slider 
 Route::post('/slider/create',[SliderController::class,'store']);

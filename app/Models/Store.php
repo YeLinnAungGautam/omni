@@ -10,9 +10,10 @@ class Store extends Model
     use HasFactory;
 
     protected $fillable = [
-        'brand_name'
+        'brand_name',
+        'image'
     ];
     public function Sider(){
-        return $this->belongsTo(Slider::class,'store_id');
+        return $this->hasMany(Slider::class,'store_id');
     }
 }

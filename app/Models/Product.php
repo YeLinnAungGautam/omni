@@ -13,9 +13,21 @@ class Product extends Model
         'name',
         'price',
         'item_description', 
-        'thumbnails',
         'category_id',
         'percentage_id',
-        'item_id'
+        'item_id',
+        'store_id'
     ];
+    public function ProductImage(){
+        return $this->hasMany(ProductImage::class,'product_id');
+    }
+    public function Category(){
+        return $this->hasOne(Category::class, 'id', 'category_id');
+    }
+    public function Percentage(){
+        return $this->hasOne(Percentages::class, 'id', 'percentage_id');
+    }
+    public function Store(){
+        return $this->hasOne(Store::class, 'id', 'store_id');
+    }
 }

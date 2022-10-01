@@ -12,14 +12,8 @@ class SubCategory extends Model
     protected $fillable = [
         'name',
         'category_id'
-    ];
-    // public function Category(){
-    //     return $this->hasMany(Category::class,'category_id','id');
-    // } 
+    ]; 
     public function Category(){
         return $this->belongsTo(Category::class,'category_id');
     }
-    // public function Category(){
-    //     return $this->belongsTo(Category::class,'id');
-    // } 
 }

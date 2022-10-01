@@ -18,9 +18,9 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->string('price');
             $table->string('item_description');
-            $table->json('thumbnails');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('percentage_id');
+            $table->unsignedBigInteger('store_id');
             $table->string('item_id');
             $table->foreign('category_id')
                   ->references('id')
@@ -29,6 +29,10 @@ class CreateProductsTable extends Migration
             $table->foreign('percentage_id')
                   ->references('id')
                   ->on('percentages')
+                  ->onDelete('cascade');
+            $table->foreign('store_id')
+                  ->references('id')
+                  ->on('stores')
                   ->onDelete('cascade');
             $table->timestamps();
         });

@@ -13,13 +13,7 @@ class Category extends Model
         'name',
         'image'
     ]; 
-    // public function SubCategory(){
-    //     return $this->belongsTo(SubCategory::class,'id');
-    // } 
-        public function SubCategory(){
-            return $this->hasMany(SubCategory::class,'category_id');
-        }
-    // public function SubCategory(){
-    //     return $this->hasMany(SubCategory::class,'id','category_id');
-    // } 
+    public function SubCategory(){
+        return $this->hasMany(SubCategory::class,'category_id');
+    }
 }
