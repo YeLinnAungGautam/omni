@@ -51,18 +51,32 @@ class ProductController extends Controller
             'store_id' => 'nullable'
         ]);
         $category_id = Category::find($request->category_id);
-        // $store_id = Store::find($request->store_id);
+        $store_id = Store::find($request->store_id);
         $percentage_id = Percentages::find($request->percentage_id);
         if($category_id && $percentage_id){
-            $product = Product::create([
-                'name' => $data['name'],
-                'price' => $data['price'],
-                'item_description' => $data['item_description'],
-                'category_id' => $data['category_id'],
-                'percentage_id' => $data['percentage_id'],
-                'item_id' => $this->Itemid(),
-                'store_id' => $data['store_id'],
-            ]);
+            if($store_id){
+                $product = Product::create([
+                    'name' => $data['name'],
+                    'price' => $data['price'],
+                    'item_description' => $data['item_description'],
+                    'category_id' => $category_id->id,
+                    'percentage_id' => $percentage_id->id,
+                    'item_id' => $this->Itemid(),
+                    'store_id' => $store_id->id,
+                ]);
+            }
+            else{
+                $product = Product::create([
+                    'name' => $data['name'],
+                    'price' => $data['price'],
+                    'item_description' => $data['item_description'],
+                    'category_id' => $category_id->id,
+                    'percentage_id' => $percentage_id->id,
+                    'item_id' => $this->Itemid(),
+                    'store_id' => null,
+                ]);
+            }
+            
             $store_multiple_image = array();
             $product_id = Product::latest()->first()->id;
             if($request->hasFile('thumbnails')){
@@ -81,11 +95,6 @@ class ProductController extends Controller
                         ]); 
                       }
                       $image_to_get = ProductImage::where('product_id',$product_id)->get(['thumbnails']);
-                    //   $thumbnails_length = count($image_to_get);
-                    // foreach($image_to_get as $value) {
-                    //     $result[$value['thumbnails']] = $value['name'];
-                    //     //  $result = [$value['thumbnails']];
-                    // }
                       return response()->json([
                         'status' => 'success',
                         'data' =>  $product,
@@ -107,6 +116,7 @@ class ProductController extends Controller
             }
         }
         else{
+
             return response()->json([
                 'status' => 'Fail',
                 'message' =>  "Not Found"    
