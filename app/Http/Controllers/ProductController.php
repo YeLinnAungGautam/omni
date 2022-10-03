@@ -48,12 +48,12 @@ class ProductController extends Controller
             'category_id' => 'required',
             'percentage_id' => 'required',
             // 'item_id' => 'required',
-            'store_id' => 'required'
+            'store_id' => 'nullable'
         ]);
         $category_id = Category::find($request->category_id);
-        $store_id = Store::find($request->store_id);
+        // $store_id = Store::find($request->store_id);
         $percentage_id = Percentages::find($request->percentage_id);
-        if($category_id && $store_id && $percentage_id){
+        if($category_id && $percentage_id){
             $product = Product::create([
                 'name' => $data['name'],
                 'price' => $data['price'],

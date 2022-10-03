@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\File;
 
 class StoreController extends Controller
 { 
+    public function index()
+    {
+        $store = Store::with('Slider')->get();
+        return $store;
+    }
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -21,7 +26,8 @@ class StoreController extends Controller
         $file-> move(public_path('storage/store_image'), $filename);
         $store = Store::create([
             'brand_name' => $data['name'],
-            'image' => $filename
+            'image' => $filename,
+            'unique_id' => $this->UniqueId()
         ]);
         $store_image_name = Store::latest()->first()->image;
         if($store){
@@ -85,11 +91,27 @@ class StoreController extends Controller
     public function show($id)
     {
         // $sub_category = SubCategory::with('Category')->find($id);
-        $store = Store::with('Slider')->find($id);
+        $store = Store::find($id);
         if($store){
             return response()->json([
                 'status' => 'success',
                 'data' =>  $store    
+            ], 201); 
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"   
+            ], 404); 
+        }
+    }
+    public function showproduct($id)
+    {
+        $store_product_slider = Store::with('Product','Slider')->find($id);
+        if($store_product_slider){
+            return response()->json([
+                'status' => 'success',
+                'data' =>  $store_product_slider    
             ], 201); 
         }
         else{
@@ -117,5 +139,16 @@ class StoreController extends Controller
                 'message' =>  "Not Found"   
             ], 404); 
         }
+    }
+    private function UniqueId()
+    {
+        $characters = 'lmnopqr1234stuvw56789xyz';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 5; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $finalvouchernumber = 'ZTrade-store'.$randomString;
+        }
+        return $finalvouchernumber;
     }
 }

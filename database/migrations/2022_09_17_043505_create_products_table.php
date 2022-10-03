@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('item_description');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('percentage_id');
-            $table->unsignedBigInteger('store_id');
+            $table->unsignedBigInteger('store_id')->nullable();
             $table->string('item_id');
             $table->foreign('category_id')
                   ->references('id')

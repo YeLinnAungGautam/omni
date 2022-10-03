@@ -91,7 +91,19 @@ class SliderController extends Controller
      */
     public function show($id)
     {
-        //
+        $slider = Slider::with('Store')->find($id);
+        if($slider){
+            return response()->json([
+                'status' => 'success',
+                'data' =>  $slider    
+            ], 201); 
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"   
+            ], 404); 
+        }
     }
 
     /**

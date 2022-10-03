@@ -11,9 +11,13 @@ class Store extends Model
 
     protected $fillable = [
         'brand_name',
-        'image'
+        'image',
+        'unique_id'
     ];
-    public function Sider(){
+    public function Slider(){
         return $this->hasMany(Slider::class,'store_id');
     }
+    public function Product(){
+        return $this->hasMany(Product::class,'store_id');
+    } 
 }

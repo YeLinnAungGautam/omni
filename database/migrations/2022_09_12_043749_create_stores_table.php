@@ -17,6 +17,7 @@ class CreateStoresTable extends Migration
             $table->id();
             $table->string('brand_name');
             $table->string('image');
+            $table->string('unique_id');
             $table->timestamps();
         }); 
     }

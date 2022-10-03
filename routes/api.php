@@ -46,14 +46,17 @@ Route::put('/percentage/update/{id}',[PercentageController::class,'update']);
 
 //Store
 Route::post('/store/create',[StoreController::class,'store']);
+Route::get('/store/list',[StoreController::class,'index']);
 Route::put('/store/update/{id}',[StoreController::class,'update']);
 Route::get('/store/show/{id}',[StoreController::class,'show']);
+Route::get('/store/showwithproduct/{id}',[StoreController::class,'showproduct']);
 Route::delete('/store/delete/{id}',[StoreController::class,'destroy']);
 
 //Slider 
 Route::post('/slider/create',[SliderController::class,'store']);
 Route::get('/slider/list',[SliderController::class,'index']);
 Route::put('/slider/update/{id}',[SliderController::class,'update']);
+Route::get('slider/show/{id}',[SliderController::class,'show']);
 Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
 
 //Product 

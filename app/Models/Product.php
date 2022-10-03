@@ -28,6 +28,6 @@ class Product extends Model
         return $this->hasOne(Percentages::class, 'id', 'percentage_id');
     }
     public function Store(){
-        return $this->hasOne(Store::class, 'id', 'store_id');
+        return $this->belongsTo(Store::class,'store_id');
     }
 }
