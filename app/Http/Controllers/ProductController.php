@@ -44,7 +44,7 @@ class ProductController extends Controller
             'name' => 'required|string',
             'price' => 'required|string',
             'item_description' => 'required|string',
-            'thumbnails' => 'required',
+            // 'thumbnails' => 'required',
             'category_id' => 'required',
             'percentage_id' => 'required',
             // 'item_id' => 'required',
@@ -76,17 +76,17 @@ class ProductController extends Controller
                     'store_id' => null,
                 ]);
             }
-            
             $store_multiple_image = array();
             $product_id = Product::latest()->first()->id;
-            if($request->hasFile('thumbnails')){
-                foreach($request->file('thumbnails') as $file){
-                    $image_name = md5(rand(1000, 10000));
-                    $ext = strtolower($file->getClientOriginalExtension());
-                    $image_full_name = $image_name.'.'.$ext;
-                    $file->move(public_path('storage/product_image'), $image_full_name);
-                    $store_multiple_image[] = $image_full_name;
-                }
+            for ($x = 0; $x < $request->image_list; $x++) {
+                error_log('Showing the user profile for user: '.'thumbnails'.strval($x));
+                $file=$request->file('thumbnails'.strval($x));
+                $image_name = md5(rand(1000, 10000));
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $image_name.'.'.$ext;
+                $file->move(public_path('storage/product_image'), $image_full_name);
+                $store_multiple_image[] = $image_full_name;                 
+              }
                 if($product_id){
                     foreach($store_multiple_image as $value) {
                         $image = ProductImage::create([
@@ -106,17 +106,9 @@ class ProductController extends Controller
                         'status' => 'fail',
                         'message' =>  "Not Found"    
                     ], 404); 
-                }
-            }
-            else{
-                return response()->json([
-                    'status' => 'fail',
-                    'message' =>  "Not Found"    
-                ], 404); 
-            }
+                } 
         }
         else{
-
             return response()->json([
                 'status' => 'Fail',
                 'message' =>  "Not Found"    

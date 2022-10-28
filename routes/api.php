@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\AboutUsController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -65,5 +66,13 @@ Route::get('/product/list',[ProductController::class,'index']);
 Route::get('/product/show/{id}',[ProductController::class,'show']);
 Route::put('/product/update/{id}',[ProductController::class,'update']);
 Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
+
+
+//About Us 
+Route::post('/aboutus/create',[AboutUsController::class,'store']);
+Route::get('/aboutus/list',[AboutUsController::class,'index']);
+Route::get('/aboutus/show/{id}',[AboutUsController::class,'show']);
+Route::put('/aboutus/update/{id}',[AboutUsController::class,'update']);
+Route::delete('/aboutus/delete/{id}',[AboutUsController::class,'delete']);
 
 
