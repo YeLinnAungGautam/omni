@@ -88,10 +88,11 @@ class StoreController extends Controller
             ], 404);  
         }
     }
-    public function show($id)
+    public function show($uniqueid)
     {
         // $sub_category = SubCategory::with('Category')->find($id);
-        $store = Store::find($id);
+        $store = Store::find($uniqueid);
+        $store = Store::where(['unique_id' => $uniqueid])->first();
         if($store){
             return response()->json([
                 'status' => 'success',

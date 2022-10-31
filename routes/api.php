@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //Store
     Route::get('/store/list',[StoreController::class,'index']);
-    Route::get('/store/show/{id}',[StoreController::class,'show']);
+    Route::get('/store/show/{uniqueid}',[StoreController::class,'show']);
     Route::get('/store/showwithproduct/{id}',[StoreController::class,'showproduct']);
 
     //Slider 
