@@ -31,36 +31,36 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //Category Protected Route 
     Route::post('/category/create',[CategoryController::class,'store']);
-    Route::put('/category/update/{id}',[CategoryController::class,'update']);
+    Route::post('/category/update/{id}',[CategoryController::class,'update']);
     Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
 
     //SubCategory Protected Route 
     Route::post('/subcategory/create',[SubCategoryController::class,'store']);
-    Route::put('/subcategory/update/{id}',[SubCategoryController::class,'update']);
+    Route::post('/subcategory/update/{id}',[SubCategoryController::class,'update']);
     Route::delete('/subcategory/delete/{id}',[SubCategoryController::class,'destroy']);
 
     //Percentage Protected Route
     Route::post('/percentage/create',[PercentageController::class,'store']);
-    Route::put('/percentage/update/{id}',[PercentageController::class,'update']);
+    Route::post('/percentage/update/{id}',[PercentageController::class,'update']);
 
     //Store Protected Route
     Route::post('/store/create',[StoreController::class,'store']);
-    Route::put('/store/update/{id}',[StoreController::class,'update']);
+    Route::post('/store/update/{id}',[StoreController::class,'update']);
     Route::delete('/store/delete/{id}',[StoreController::class,'destroy']);
 
     //Slider Protected Route 
     Route::post('/slider/create',[SliderController::class,'store']);
-    Route::put('/slider/update/{id}',[SliderController::class,'update']);
+    Route::post('/slider/update/{id}',[SliderController::class,'update']);
     Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
 
     //Product Protected Route
     Route::post('/product/create',[ProductController::class,'store']);
-    Route::put('/product/update/{id}',[ProductController::class,'update']);
+    Route::post('/product/update/{id}',[ProductController::class,'update']);
     Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
 
     //AboutUs Protected Route
     Route::post('/aboutus/create',[AboutUsController::class,'store']);
-    Route::put('/aboutus/update/{id}',[AboutUsController::class,'update']);
+    Route::post('/aboutus/update/{id}',[AboutUsController::class,'update']);
     Route::delete('/aboutus/delete/{id}',[AboutUsController::class,'delete']);
 });
 
