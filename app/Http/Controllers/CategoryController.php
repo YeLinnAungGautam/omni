@@ -50,6 +50,7 @@ class CategoryController extends Controller
         $category = Category::create([
             'name' => $data['name'],
             'image' => $filename,
+            'unique_id' => $this->UniqueId()
         ]);
         $category_image_name = Category::latest()->first()->image;
         return response()->json([
@@ -178,5 +179,16 @@ class CategoryController extends Controller
                 'message' =>  "Not Found"   
             ], 404); 
         }
+    }
+    private function UniqueId()
+    {
+        $characters = 'ladwkiow2qr1234stuvw56789xyz';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 5; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $finalvouchernumber = 'cat'.$randomString;
+        }
+        return $finalvouchernumber;
     }
 }
