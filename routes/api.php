@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\BannerController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -53,6 +54,12 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/slider/update/{id}',[SliderController::class,'update']);
     Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
 
+    //Banner Protected Route 
+    Route::post('/banner/create',[BannerController::class,'store']);
+    Route::post('/banner/update/{id}',[BannerController::class,'update']);
+    Route::delete('/banner/delete/{id}',[BannerController::class,'destroy']);
+
+
     //Product Protected Route
     Route::post('/product/create',[ProductController::class,'store']);
     Route::post('/product/update/{id}',[ProductController::class,'update']);
@@ -85,6 +92,10 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/slider/list',[SliderController::class,'index']);
     Route::get('slider/show/{id}',[SliderController::class,'show']);
 
+    //Banner 
+    Route::get('/banner/list',[BannerController::class,'index']);
+    Route::get('banner/show/{id}',[BannerController::class,'show']);
+    
     //Product 
     Route::get('/product/list',[ProductController::class,'index']);
     Route::get('/product/show/{id}',[ProductController::class,'show']);
