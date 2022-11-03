@@ -41,10 +41,10 @@ class BannerController extends Controller
 
     public function update($id,Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+        // $data = $request->validate([
+        //     'name' => 'required',
+        //     'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048'
+        // ]);
         $banner_update = Banner::find($id);
         if($banner_update){
             if($request->hasFile('image') != null){
@@ -54,7 +54,7 @@ class BannerController extends Controller
                 if(File::exists(public_path('storage/banner_image/'.$banner_update->image))){
                    File::delete(public_path('storage/banner_image/'.$banner_update->image));
                    $banner_update->update([
-                    'brand_name' => $data['name'],
+                    'brand_name' => $request->name ?? $banner_update->name,
                     'image' => $filename
                 ]);
                 return response()->json([
@@ -64,8 +64,8 @@ class BannerController extends Controller
                 }
                 else{
                     $banner_update->update([
-                        'brand_name' => $data['name'],
-                        'image' => $filename
+                        'brand_name' => $request->name ?? $banner_update->name,
+                        'image' => $filename ?? $banner_update->image
                     ]);
                     return response()->json([
                         'status' => 'success',
@@ -75,7 +75,7 @@ class BannerController extends Controller
             }
             else{
                 $banner_update->update([
-                    'brand_name' => $data['name']
+                    'brand_name' => $request->name ?? $banner_update->name,
                 ]);
                 return response()->json([
                     'status' => 'success',

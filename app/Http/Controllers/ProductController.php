@@ -44,7 +44,7 @@ class ProductController extends Controller
             'name' => 'required|string',
             'price' => 'required|string',
             'item_description' => 'required|string',
-            // 'thumbnails' => 'required',
+            'thumbnails' => 'nullable',
             'category_id' => 'required',
             'percentage_id' => 'required',
             // 'item_id' => 'required',
