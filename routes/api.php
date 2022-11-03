@@ -30,6 +30,8 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
 
+    
+});
     //Category Protected Route 
     Route::post('/category/create',[CategoryController::class,'store']);
     Route::post('/category/update/{id}',[CategoryController::class,'update']);
@@ -69,8 +71,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/aboutus/create',[AboutUsController::class,'store']);
     Route::post('/aboutus/update/{id}',[AboutUsController::class,'update']);
     Route::delete('/aboutus/delete/{id}',[AboutUsController::class,'delete']);
-});
-
+    
     //Register 
     Route::post('/user/register',[RegisterController::class,'store']);
     Route::post('/login',[RegisterController::class,'login']);
