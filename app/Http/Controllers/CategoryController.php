@@ -106,7 +106,7 @@ class CategoryController extends Controller
     public function update($id,Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string',
+            'name' => 'nullable',
             'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $category_find_to_update = Category::find($id);
@@ -118,7 +118,6 @@ class CategoryController extends Controller
                 if(File::exists(public_path('storage/category_image/'.$category_find_to_update->image))){
                     File::delete(public_path('storage/category_image/'.$category_find_to_update->image));
                     $category_find_to_update->update([
-                        'name' => $data['name'],
                         'image' => $filename
                     ]);
                     return response()->json([
@@ -128,7 +127,6 @@ class CategoryController extends Controller
                 }
                 else{   
                     $category_find_to_update->update([
-                        'name' => $data['name'],
                         'image' => $filename
                     ]);
                     return response()->json([
@@ -136,6 +134,11 @@ class CategoryController extends Controller
                         'message' =>  "Successfully Updated"    
                     ], 201);
                 } 
+            }
+            if(empty($request->input('name'))){
+                $category_find_to_update->update([
+                    'name' => $category_find_to_update->name
+                ]);
             }
             else{
                 $category_find_to_update->update([
