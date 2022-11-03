@@ -127,13 +127,13 @@ class SliderController extends Controller
     public function update(Request $request, $id)
     {
         // return $id;
-        $data = $request->validate([
-            'slider_name' => 'required|string',
-            'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
-            'store_id' => 'required'
-        ]);
+        // $data = $request->validate([
+        //     'slider_name' => 'required|string',
+        //     'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
+        //     'store_id' => 'required'
+        // ]);
         $slider_find_to_update = Slider::find($id);
-        $storeid_to_update = Store::find($id);
+        $storeid_to_update = Store::find($request->store_id);
         if($slider_find_to_update && $storeid_to_update){
             if($request->hasFile('image') != null){
                 $file= $request->file('image');
@@ -142,9 +142,9 @@ class SliderController extends Controller
                 if(File::exists(public_path('storage/slider_image/'.$slider_find_to_update->image))){
                     File::delete(public_path('storage/slider_image/'.$slider_find_to_update->image));
                     $slider_find_to_update->update([
-                        'name' => $data['slider_name'],
+                        'name' => $request->slider_name,
                         'image' => $filename,
-                        'store_id' => $data['store_id']
+                        'store_id' =>$request->store_id 
                     ]);
                     return response()->json([
                         'status' => 'success',
@@ -153,9 +153,9 @@ class SliderController extends Controller
                 }
                 else{   
                     $slider_find_to_update->update([
-                        'name' => $data['slider_name'],
-                        'image' => $filename,
-                        'store_id' => $data['store_id']
+                        'name' => $request->slider_name ?? $slider_find_to_update->name,
+                        'image' => $filename ?? $slider_find_to_update->image,
+                        'store_id' => $request->store_id ?? $slider_find_to_update->store_id
                     ]);
                     return response()->json([
                         'status' => 'success',
@@ -165,8 +165,8 @@ class SliderController extends Controller
             }
             else{
                 $slider_find_to_update->update([
-                    'name' => $data['slider_name'],
-                    'store_id' => $data['store_id']
+                    'name' => $request->slider_name ?? $slider_find_to_update->name,
+                    'store_id' => $request->store_id ?? $slider_find_to_update->store_id
                 ]);
                 return response()->json([
                     'status' => 'success',

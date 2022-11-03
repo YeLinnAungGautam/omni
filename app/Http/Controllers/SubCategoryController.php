@@ -103,16 +103,16 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'category_id' => 'required',
-        ]);
+        // $data = $request->validate([
+        //     'name' => 'required|string',
+        //     'category_id' => 'required',
+        // ]);
         $subcategory_find_to_update = SubCategory::find($id);
         $find_category_id = Category::find($request->category_id);
         if($subcategory_find_to_update && $find_category_id){
             $subcategory_find_to_update->update([
-                'name' => $data['name'],
-                'category_id' => $data['category_id']
+                'name' => $request->name ?? $subcategory_find_to_update->name,
+                'category_id' => $request->category_id ?? $subcategory_find_to_update->category_id
             ]);
             return response()->json([
                 'status' => 'success',

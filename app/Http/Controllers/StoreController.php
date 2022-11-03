@@ -18,7 +18,7 @@ class StoreController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required',
+            'name' => 'required|string',
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $file= $request->file('image');
@@ -39,10 +39,10 @@ class StoreController extends Controller
         } 
     }
     public function update($id,Request $request){
-        $data = $request->validate([
-            'name' => 'required',
-            'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048'
-        ]);
+        // $data = $request->validate([
+        //     'name' => 'required',
+        //     'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048'
+        // ]);
         $store_update = Store::find($id);
         if($store_update){
             if($request->hasFile('image') != null){
@@ -52,7 +52,7 @@ class StoreController extends Controller
                 if(File::exists(public_path('storage/store_image/'.$store_update->image))){
                    File::delete(public_path('storage/store_image/'.$store_update->image));
                    $store_update->update([
-                    'brand_name' => $data['name'],
+                    'brand_name' => $request->store_name ?? $store_update->brand_name,
                     'image' => $filename
                 ]);
                 return response()->json([
@@ -62,7 +62,7 @@ class StoreController extends Controller
                 }
                 else{
                     $store_update->update([
-                        'brand_name' => $data['name'],
+                        'brand_name' => $request->store_name ?? $store_update->brand_name,
                         'image' => $filename
                     ]);
                     return response()->json([
@@ -73,7 +73,7 @@ class StoreController extends Controller
             }
             else{
                 $store_update->update([
-                    'brand_name' => $data['name']
+                    'brand_name' => $request->store_name ?? $store_update->brand_name,
                 ]);
                 return response()->json([
                     'status' => 'success',
