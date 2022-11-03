@@ -105,10 +105,10 @@ class CategoryController extends Controller
      */
     public function update($id,Request $request)
     {
-        $data = $request->validate([
-            'name' => 'nullable',
-            'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $data = $request->validate([
+        //     'name' => 'nullable',
+        //     'image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
         $category_find_to_update = Category::find($id);
         if($category_find_to_update){
             if($request->hasFile('image') != null){

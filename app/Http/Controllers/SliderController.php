@@ -175,10 +175,7 @@ class SliderController extends Controller
             }
         }
         else{
-            return response()->json([
-                'status' => 'fail',
-                'message' =>  "Not Found"    
-            ], 404); 
+           
         } 
     }
 
