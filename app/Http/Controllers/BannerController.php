@@ -54,7 +54,7 @@ class BannerController extends Controller
                 if(File::exists(public_path('storage/banner_image/'.$banner_update->image))){
                    File::delete(public_path('storage/banner_image/'.$banner_update->image));
                    $banner_update->update([
-                    'brand_name' => $request->name ?? $banner_update->name,
+                    // 'brand_name' => $request->name ?? $banner_update->name,
                     'image' => $filename
                 ]);
                 return response()->json([
@@ -65,8 +65,9 @@ class BannerController extends Controller
                 else{
                     $banner_update->update([
                         'brand_name' => $request->name ?? $banner_update->name,
-                        'image' => $filename ?? $banner_update->image
+                        'image' => $banner_update->image
                     ]);
+                    error_log("hello");
                     return response()->json([
                         'status' => 'success',
                         'message' =>  "Successfully Updated"    
