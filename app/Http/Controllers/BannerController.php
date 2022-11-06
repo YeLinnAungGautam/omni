@@ -64,10 +64,9 @@ class BannerController extends Controller
                 }
                 else{
                     $banner_update->update([
-                        'brand_name' => $request->name ?? $banner_update->name,
+                        'name' => $request->name ?? $banner_update->name,
                         'image' => $banner_update->image
                     ]);
-                    error_log("hello");
                     return response()->json([
                         'status' => 'success',
                         'message' =>  "Successfully Updated"    
@@ -76,7 +75,7 @@ class BannerController extends Controller
             }
             else{
                 $banner_update->update([
-                    'brand_name' => $request->name ?? $banner_update->name,
+                    'name' => $request->name ?? $banner_update->name,
                 ]);
                 return response()->json([
                     'status' => 'success',
