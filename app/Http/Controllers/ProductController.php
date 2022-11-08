@@ -149,6 +149,10 @@ class ProductController extends Controller
             ], 404); 
         }
     }
+    public function showSingleCategoryProduct($id)
+    {
+
+    }
 
     /**
      * Show the form for editing the specified resource.

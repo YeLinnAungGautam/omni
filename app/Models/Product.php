@@ -22,12 +22,12 @@ class Product extends Model
         return $this->hasMany(ProductImage::class,'product_id');
     }
     public function Category(){
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->belongsTo(Category::class,'category_id');
     }
     public function Percentage(){
         return $this->hasOne(Percentages::class, 'id', 'percentage_id');
     }
     public function Store(){
-        return $this->belongsTo(Store::class,'store_id');
+        return $this->belongsTo(Store::class,'store_id'); 
     }
 }

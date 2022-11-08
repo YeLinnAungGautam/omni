@@ -70,7 +70,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::with('SubCategory')->find($id);
+        $category = Category::with('SubCategory','Product')->find($id);
         if($category){
             return response()->json([
                 'status' => 'success',
