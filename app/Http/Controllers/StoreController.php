@@ -108,7 +108,7 @@ class StoreController extends Controller
     }
     public function showproduct($id)
     {
-        $store_product_slider = Store::with('Product','Slider')->find($id);
+        $store_product_slider = Store::with('Product','Slider','Product.ProductImage')->find($id);
         if($store_product_slider){
             return response()->json([
                 'status' => 'success',
