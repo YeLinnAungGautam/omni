@@ -16,7 +16,9 @@ class Product extends Model
         'category_id',
         'percentage_id',
         'item_id',
-        'store_id'
+        'store_id',
+        'new_arrival',
+        'most_popular'
     ];
     public function ProductImage(){
         return $this->hasMany(ProductImage::class,'product_id');

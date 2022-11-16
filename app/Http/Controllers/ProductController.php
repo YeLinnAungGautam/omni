@@ -62,6 +62,8 @@ class ProductController extends Controller
                     'item_description' => $data['item_description'],
                     'category_id' => $category_id->id,
                     'percentage_id' => $percentage_id->id,
+                    'new_arrival' =>$request->new_arrival ?? 0,
+                    'most_popular' =>$request->most_popular ?? 0,
                     'item_id' => $this->Itemid(),
                     'store_id' => $store_id->id,
                 ]);
@@ -73,6 +75,8 @@ class ProductController extends Controller
                     'item_description' => $data['item_description'],
                     'category_id' => $category_id->id,
                     'percentage_id' => $percentage_id->id,
+                    'new_arrival' =>$request->new_arrival ?? 0,
+                    'most_popular' =>$request->most_popular ?? 0,
                     'item_id' => $this->Itemid(),
                     'store_id' => null,
                 ]);
@@ -126,6 +130,27 @@ class ProductController extends Controller
             $finalvouchernumber = 'ZT'.$randomString;
         }
         return $finalvouchernumber;
+    }
+
+    public function newarrival()
+    {
+        $new_arrival = Product::with('Category','Percentage','Store','ProductImage')->where([
+            'new_arrival' => 1,
+        ])->get();
+            return response()->json([
+                'status' => 'success',
+                'data' =>  $new_arrival    
+            ], 201); 
+    }
+    public function mostpopular()
+    {
+        $most_popular = Product::with('Category','Percentage','Store','ProductImage')->where([
+            'most_popular' => 1,
+        ])->get();
+            return response()->json([
+                'status' => 'success',
+                'data' =>  $most_popular    
+            ], 201); 
     }
 
     /**

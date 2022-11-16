@@ -34,7 +34,10 @@ class CreateProductsTable extends Migration
                   ->references('id')
                   ->on('stores')
                   ->onDelete('cascade');
+            $table->boolean('new_arrival')->default(0);
+            $table->boolean('most_popular')->default(0);
             $table->timestamps();
+            
         });
     }
 

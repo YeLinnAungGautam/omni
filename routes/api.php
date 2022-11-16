@@ -105,5 +105,12 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/aboutus/list',[AboutUsController::class,'index']);
     Route::get('/aboutus/show/{id}',[AboutUsController::class,'show']);
 
+    //New Arrival 
+    Route::get('/newarrival',[ProductController::class,'newarrival']);
+
+    //Most Popular 
+    Route::get('/mostpopular',[ProductController::class,'mostpopular']);
+
+
 
 
