@@ -134,6 +134,7 @@ class SliderController extends Controller
         // ]);
         $slider_find_to_update = Slider::find($id);
         $storeid_to_update = Store::find($request->store_id);
+        // dd($storeid_to_update);
         if($slider_find_to_update && $storeid_to_update){
             if($request->hasFile('image') != null){
                 $file= $request->file('image');
@@ -142,9 +143,9 @@ class SliderController extends Controller
                 if(File::exists(public_path('storage/slider_image/'.$slider_find_to_update->image))){
                     File::delete(public_path('storage/slider_image/'.$slider_find_to_update->image));
                     $slider_find_to_update->update([
-                        'name' => $request->slider_name,
+                        'name' => $request->slider_name ?? $slider_find_to_update->name,
                         'image' => $filename,
-                        'store_id' =>$request->store_id 
+                        'store_id' =>$request->store_id ?? $slider_find_to_update->store_id
                     ]);
                     return response()->json([
                         'status' => 'success',
@@ -175,7 +176,10 @@ class SliderController extends Controller
             }
         }
         else{
-           
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"   
+            ], 404); 
         } 
     }
 
