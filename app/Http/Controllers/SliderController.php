@@ -176,10 +176,44 @@ class SliderController extends Controller
             }
         }
         else{
-            return response()->json([
-                'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+            if($request->hasFile('image') != null){
+                $file= $request->file('image');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('storage/slider_image'), $filename);
+                if(File::exists(public_path('storage/slider_image/'.$slider_find_to_update->image))){
+                    File::delete(public_path('storage/slider_image/'.$slider_find_to_update->image));
+                    $slider_find_to_update->update([
+                        'name' => $request->slider_name ?? $slider_find_to_update->name,
+                        'image' => $filename,
+                        'store_id' => null
+                    ]);
+                    return response()->json([
+                        'status' => 'success',
+                        'message' =>  "Successfully Updated"
+                    ], 201);
+                }
+                else{
+                    $slider_find_to_update->update([
+                        'name' => $request->slider_name ?? $slider_find_to_update->name,
+                        'image' => $filename ?? $slider_find_to_update->image,
+                        'store_id' => null
+                    ]);
+                    return response()->json([
+                        'status' => 'success',
+                        'message' =>  "Successfully Updated"
+                    ], 201);
+                }
+            }
+            else{
+                $slider_find_to_update->update([
+                    'name' => $request->slider_name ?? $slider_find_to_update->name,
+                    'store_id' => null
+                ]);
+                return response()->json([
+                    'status' => 'success',
+                    'message' =>  "Successfully Updated"
+                ], 201);
+            }
         } 
     }
 
