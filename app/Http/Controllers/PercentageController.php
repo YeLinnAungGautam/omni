@@ -44,4 +44,21 @@ class PercentageController extends Controller
             ], 404);  
         }
     }
+    public function show($id)
+    {
+        // $percentage = Percentages::find($id);
+        $percentage = Percentages::where('id', $id)->first();
+        if($percentage){
+            return response()->json([
+                'status' => 'success',
+                'data' =>  $percentage    
+            ], 201); 
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"   
+            ], 404); 
+        }
+    }
 }

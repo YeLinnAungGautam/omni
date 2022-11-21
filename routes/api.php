@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     //Percentage Protected Route
     Route::post('/percentage/create',[PercentageController::class,'store']);
     Route::post('/percentage/update/{id}',[PercentageController::class,'update']);
+    Route::get('/percentage/show/{id}',[PercentageController::class,'show']);
 
     //Store Protected Route
     Route::post('/store/create',[StoreController::class,'store']);
