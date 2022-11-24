@@ -8,6 +8,7 @@ use App\Models\Percentages;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Store;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -19,7 +20,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::with('Category','ProductImage','Percentage','Store')->get();
+        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->get();
         return $product;
     }
 
@@ -53,6 +54,7 @@ class ProductController extends Controller
         ]);
         $category_id = Category::find($request->category_id);
         $store_id = Store::find($request->store_id);
+        $subcategory_id = SubCategory::find($request->subcategory_id);
         $percentage_id = Percentages::find($request->percentage_id);
         if($category_id && $percentage_id){
             if($store_id){
@@ -62,8 +64,10 @@ class ProductController extends Controller
                     'item_description' => $data['item_description'],
                     'category_id' => $category_id->id,
                     'percentage_id' => $percentage_id->id,
+                    'subcategory_id' => $subcategory_id->id ?? null,
                     'new_arrival' =>$request->new_arrival ?? 0,
                     'most_popular' =>$request->most_popular ?? 0,
+                    'top_selling' =>$request->top_selling ?? 0,
                     'item_id' => $this->Itemid(),
                     'store_id' => $store_id->id,
                 ]);
@@ -75,8 +79,10 @@ class ProductController extends Controller
                     'item_description' => $data['item_description'],
                     'category_id' => $category_id->id,
                     'percentage_id' => $percentage_id->id,
+                    'subcategory_id' => $subcategory_id->id ?? null,
                     'new_arrival' =>$request->new_arrival ?? 0,
                     'most_popular' =>$request->most_popular ?? 0,
+                    'top_selling' =>$request->top_selling ?? 0,
                     'item_id' => $this->Itemid(),
                     'store_id' => null,
                 ]);
@@ -134,7 +140,7 @@ class ProductController extends Controller
 
     public function newarrival()
     {
-        $new_arrival = Product::with('Category','Percentage','Store','ProductImage')->where([
+        $new_arrival = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where([
             'new_arrival' => 1,
         ])->get();
             return response()->json([
@@ -144,12 +150,22 @@ class ProductController extends Controller
     }
     public function mostpopular()
     {
-        $most_popular = Product::with('Category','Percentage','Store','ProductImage')->where([
+        $most_popular = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where([
             'most_popular' => 1,
         ])->get();
             return response()->json([
                 'status' => 'success',
                 'data' =>  $most_popular    
+            ], 201); 
+    }
+    public function topselling()
+    {
+        $top_selling = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where([
+            'top_selling' => 1,
+        ])->get();
+            return response()->json([
+                'status' => 'success',
+                'data' =>  $top_selling  
             ], 201); 
     }
 
@@ -161,7 +177,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with('Category','Percentage','Store','ProductImage')->find($id);
+        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->find($id);
         if($product){
             return response()->json([
                 'status' => 'success',

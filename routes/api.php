@@ -11,6 +11,8 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\TermandConditionController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -68,6 +70,16 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/product/update/{id}',[ProductController::class,'update']);
     Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
 
+    //Privacy Policy Protected Route 
+    Route::post('/privacypolicy/create',[PrivacyPolicyController::class,'store']);
+    Route::post('/privacypolicy/update/{id}',[PrivacyPolicyController::class,'update']);
+    Route::delete('/privacypolicy/delete/{id}',[PrivacyPolicyController::class,'delete']);
+
+    //TermandCondition Protected Route
+    Route::post('/termandcondition/create',[TermandConditionController::class,'store']);
+    Route::post('/termandcondition/update/{id}',[TermandConditionController::class,'update']);
+    Route::delete('/termandcondition/delete/{id}',[TermandConditionController::class,'delete']);
+
     //AboutUs Protected Route
     Route::post('/aboutus/create',[AboutUsController::class,'store']);
     Route::post('/aboutus/update/{id}',[AboutUsController::class,'update']);
@@ -106,11 +118,22 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/aboutus/list',[AboutUsController::class,'index']);
     Route::get('/aboutus/show/{id}',[AboutUsController::class,'show']);
 
+    //Privacy Policy 
+    Route::get('/privacypolicy/list',[PrivacyPolicyController::class,'index']);
+    Route::get('/privacypolicy/show/{id}',[PrivacyPolicyController::class,'show']);
+
+    //TermandCondition
+    Route::get('/termandcondition/list',[TermandConditionController::class,'index']);
+    Route::get('/termandcondition/show/{id}',[TermandConditionController::class,'show']);
+
     //New Arrival 
     Route::get('/newarrival',[ProductController::class,'newarrival']);
 
     //Most Popular 
     Route::get('/mostpopular',[ProductController::class,'mostpopular']);
+
+    //Top Selling 
+    Route::get('/topselling',[ProductController::class,'topselling']);
 
 
 

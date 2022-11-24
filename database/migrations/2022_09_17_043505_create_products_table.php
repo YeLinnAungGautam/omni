@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('percentage_id');
             $table->unsignedBigInteger('store_id')->nullable();
+            $table->unsignedBigInteger('subcategory_id')->nullable();
             $table->string('item_id');
             $table->foreign('category_id')
                   ->references('id')
@@ -34,8 +35,13 @@ class CreateProductsTable extends Migration
                   ->references('id')
                   ->on('stores')
                   ->onDelete('cascade');
+            $table->foreign('subcategory_id')
+                  ->references('id')
+                  ->on('sub_categories')
+                  ->onDelete('cascade');
             $table->string('new_arrival')->default(0);
             $table->string('most_popular')->default(0);
+            $table->string('top_selling')->default(0);
             $table->timestamps();
             
         });

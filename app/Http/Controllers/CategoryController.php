@@ -50,6 +50,7 @@ class CategoryController extends Controller
         $category = Category::create([
             'name' => $data['name'],
             'image' => $filename,
+            'number' => 0,
             'unique_id' => $this->UniqueId()
         ]);
         $category_image_name = Category::latest()->first()->image;
@@ -137,12 +138,14 @@ class CategoryController extends Controller
             }
             if(empty($request->input('name'))){
                 $category_find_to_update->update([
-                    'name' => $category_find_to_update->name
+                    'name' => $category_find_to_update->name,
+                    'number' => 0,
                 ]);
             }
             else{
                 $category_find_to_update->update([
-                    'name' => $data['name'],
+                    'name' => $request->name ?? $category_find_to_update->name,
+                    'number' => 0,
                 ]);
                 return response()->json([
                     'status' => 'success',

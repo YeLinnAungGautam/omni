@@ -14,5 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        $this->call(PercentSeeder::class);
+        $this->call(AboutUsSeeder::class);
+        $this->call(PrivacyPolicySeeder::class);
+        $this->call(TermandConditionSeeder::class);
     }
 }
