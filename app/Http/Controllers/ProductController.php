@@ -10,6 +10,8 @@ use App\Models\ProductImage;
 use App\Models\Store;
 use App\Models\SubCategory;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 
 class ProductController extends Controller
 {
@@ -90,20 +92,19 @@ class ProductController extends Controller
             $store_multiple_image = array();
             $product_id = Product::latest()->first()->id;
             for ($x = 0; $x < $request->image_list; $x++) {
-                error_log('Showing the user profile for user: '.'thumbnails'.strval($x));
                 $file=$request->file('thumbnails'.strval($x));
                 $image_name = md5(rand(1000, 10000));
                 $ext = strtolower($file->getClientOriginalExtension());
                 $image_full_name = $image_name.'.'.$ext;
                 $file->move(public_path('storage/product_image'), $image_full_name);
-                $store_multiple_image[] = $image_full_name;                 
+                $store_multiple_image[] = $image_full_name;
               }
                 if($product_id){
                     foreach($store_multiple_image as $value) {
                         $image = ProductImage::create([
                             'thumbnails' => json_encode($value),
                             'product_id' => $product_id
-                        ]); 
+                        ]);
                       }
                       $image_to_get = ProductImage::where('product_id',$product_id)->get(['thumbnails']);
                       return response()->json([
@@ -115,15 +116,15 @@ class ProductController extends Controller
                 else{
                     return response()->json([
                         'status' => 'fail',
-                        'message' =>  "Not Found"    
-                    ], 404); 
-                } 
+                        'message' =>  "Not Found"
+                    ], 404);
+                }
         }
         else{
             return response()->json([
                 'status' => 'Fail',
-                'message' =>  "Not Found"    
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     private function Itemid()
@@ -145,9 +146,23 @@ class ProductController extends Controller
         ])->get();
             return response()->json([
                 'status' => 'success',
-                'data' =>  $new_arrival    
-            ], 201); 
+                'data' =>  $new_arrival
+            ], 201);
     }
+
+    public function destroyImage($id){
+          $success = ProductImage::find($id);
+          if($success){
+              $filename = $success->image;
+              $success->delete();
+              File::delete(public_path('storage/product_image/'.$filename));
+              return response()->json([
+                  'status' => 'success',
+                  'message' =>  "Successfully Deleted"
+              ], 201);
+          }
+    }
+
     public function mostpopular()
     {
         $most_popular = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where([
@@ -155,8 +170,8 @@ class ProductController extends Controller
         ])->get();
             return response()->json([
                 'status' => 'success',
-                'data' =>  $most_popular    
-            ], 201); 
+                'data' =>  $most_popular
+            ], 201);
     }
     public function topselling()
     {
@@ -165,8 +180,8 @@ class ProductController extends Controller
         ])->get();
             return response()->json([
                 'status' => 'success',
-                'data' =>  $top_selling  
-            ], 201); 
+                'data' =>  $top_selling
+            ], 201);
     }
 
     /**
@@ -181,14 +196,14 @@ class ProductController extends Controller
         if($product){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $product    
-            ], 201); 
+                'data' =>  $product
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     public function showSingleCategoryProduct($id)
@@ -217,6 +232,48 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $product = Product::find($id);
+        $category = Category::find($request->category_id ?? $product->category_id);
+        $subCategory = SubCategory::find($request->subcategory_id ?? $product->subcategory_id);
+        $store = Store::find($request->store_id ?? $product->store_id);
+        if($product){
+          $product->update([
+              'name' => $request->name ?? $product->name,
+              'price' => $request->price ?? $product->price,
+              'item_description' => $request->item_description ?? $product->item_description,
+              'category_id'=> $category->id,
+              'store_id'=>$store->id ?? $product->store_id,
+              'subcategory_id'=>$subCategory->id ?? null,
+              'new_arrival'=> $request->new_arrival ?? $product->new_arrival,
+              'most_popular'=> $request->most_popular ?? $product->most_popular,
+              'top_selling'=> $request->top_selling ?? $product->top_selling,
+          ]);
+          error_log("Image List");
+          error_log($request->deleteImagelist);
+          if(sizeof(json_decode($request->deleteImagelist)) > 0){
+            for($i=0;$i<sizeof(json_decode($request->deleteImagelist));$i++){
+              ProductImage::destroy(json_decode($request->deleteImagelist)[$i]);
+            }
+          }
+
+          if($request->image_list > 0){
+            error_log("Yay ");
+            for ($x = 0; $x < $request->image_list; $x++) {
+                $file=$request->file('thumbnails'.strval($x));
+                $image_name = md5(rand(1000, 10000));
+                $ext = strtolower($file->getClientOriginalExtension());
+                $image_full_name = $image_name.'.'.$ext;
+                $file->move(public_path('storage/product_image'), $image_full_name);
+                $store_multiple_image[] = $image_full_name;
+                ProductImage::create([
+                    'thumbnails' => json_encode($image_full_name),
+                    'product_id' => $id
+                ]);
+              }
+          }
+        }
+
     }
 
     /**
@@ -228,5 +285,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        Product::destroy($id);
+        return response()->json([
+            'status' => 'success',
+        ], 201);
     }
 }

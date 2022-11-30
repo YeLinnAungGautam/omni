@@ -73,10 +73,8 @@ class CategoryController extends Controller
     {
         $category = Category::with('SubCategory','Product','Product.ProductImage')->find($id);
         if($category){
-            return response()->json([
-                'status' => 'success',
-                'data' =>  $category    
-            ], 201); 
+            return  $category    ;
+            
         }
         else{
             return response()->json([
