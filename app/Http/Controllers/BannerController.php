@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 
 class BannerController extends Controller
 {
-    
+
     public function index()
     {
         $banner = Banner::all();
@@ -34,7 +34,7 @@ class BannerController extends Controller
             return response()->json([
                 'status' => 'success',
                 'data' =>  $banner,
-                'image-url' => Storage::url("banner_image/".$banner_image_name)   
+                'image-url' => Storage::url("banner_image/".$banner_image_name)
             ], 201);
         }
     }
@@ -59,7 +59,7 @@ class BannerController extends Controller
                 ]);
                 return response()->json([
                     'status' => 'success',
-                    'message' =>  "Successfully Updated"    
+                    'message' =>  "Successfully Updated"
                 ], 201);
                 }
                 else{
@@ -69,7 +69,7 @@ class BannerController extends Controller
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
                 }
             }
@@ -79,15 +79,15 @@ class BannerController extends Controller
                 ]);
                 return response()->json([
                     'status' => 'success',
-                    'message' =>  "Successfully Updated"    
+                    'message' =>  "Successfully Updated"
                 ], 201);
             }
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"    
-            ], 404);  
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     public function show($id)
@@ -96,14 +96,14 @@ class BannerController extends Controller
         if($banner){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $banner  
-            ], 201); 
+                'data' =>  $banner
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     public function destroy($id)
@@ -115,14 +115,14 @@ class BannerController extends Controller
             File::delete(public_path('storage/banner_image/'.$filename));
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Deleted"   
+                'message' =>  "Successfully Deleted"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 
