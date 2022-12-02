@@ -13,6 +13,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermandConditionController;
+use App\Http\Controllers\SocialController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -85,6 +86,15 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/aboutus/create',[AboutUsController::class,'store']);
     Route::post('/aboutus/update/{id}',[AboutUsController::class,'update']);
     Route::delete('/aboutus/delete/{id}',[AboutUsController::class,'delete']);
+
+    //Social Protected Route
+    Route::post('/social/create',[SocialController::class,'store']);
+    Route::post('/social/update/{id}',[SocialController::class,'update']);
+    Route::delete('/social/delete/{id}',[SocialController::class,'destroy']);
+
+    //Social Route
+    Route::get('/social/list',[SocialController::class,'index']);
+    Route::get('/social/show/{id}',[SocialController::class,'show']);
 
     //Register
     Route::post('/user/register',[RegisterController::class,'store']);
