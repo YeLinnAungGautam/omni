@@ -13,6 +13,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TermandConditionController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 });
     //Category Protected Route
+    Route::get('/ztrade/index',[HomeController::class,'index']);
     Route::post('/category/create',[CategoryController::class,'store']);
     Route::post('/category/update/{id}',[CategoryController::class,'update']);
     Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
