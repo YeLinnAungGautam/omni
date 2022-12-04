@@ -11,6 +11,7 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\TermandConditionController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
@@ -86,6 +87,15 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/aboutus/update/{id}',[AboutUsController::class,'update']);
     Route::delete('/aboutus/delete/{id}',[AboutUsController::class,'delete']);
 
+
+    //Roles and Permissions
+    Route::get('/roles/list',[RoleController::class,'index']);
+    Route::post('/roles/create',[RoleController::class,'store']);
+    Route::post('/roles/update/{id}',[RoleController::class,'update']);
+    Route::delete('/roles/delete/{id}',[RoleController::class,'delete']);
+
+
+    Route::get('/permission/list',[RoleController::class,'create']);
     //Register
     Route::post('/user/register',[RegisterController::class,'store']);
     Route::post('/login',[RegisterController::class,'login']);
