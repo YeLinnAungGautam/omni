@@ -14,11 +14,13 @@ class RegisterController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
+            'factory' => 'required|string',
             'password' => 'required',
         ]);
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'factory_name' => $data['factory'],
             'password'=> Hash::make($data['password']),
             'verification_code' => sha1(time()),
         ]);

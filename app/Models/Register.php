@@ -12,6 +12,7 @@ class Register extends Model
     protected $fillable =[
         'name',
         'email',
-        'password'
+        'password',
+        'factory_name'
     ];
 }
