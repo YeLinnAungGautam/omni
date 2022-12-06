@@ -35,7 +35,7 @@
         background: blue;
         color: white;
       }
-      
+
       @media screen and (min-width: 767px) {
         .main{
         width: 70%!important;
@@ -112,12 +112,12 @@
           Verify Your E-mail Address
         </p>
       </div>
-      
+
       <div class="container f_block">
         <p style="text-transform:uppercase">Hi <b>{{$email_data['name']}}</b></p>
         <p>You're almost ready to get started. Please click on the button below to verify your email address and become a registered member on our platform</p>
         <div class="verify_button">
-          <a href="http://127.0.0.1:8000/verify?code={{$email_data['verification_code']}}" class="btn btn-primary">Click Here To Verify</a>
+          <a href="https://appstaging.ztrademm.com/verify?code={{$email_data['verification_code']}}" class="btn btn-primary">Click Here To Verify</a>
         </div>
         <p style="margin-top:13px;margin-bottom:0">Thanks</p>
         <p style="margin:0px">The Company Team</p>
@@ -140,7 +140,7 @@
           Copyrights © Company All Rights Reserved
         </p>
       </div>
-      
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
   </body>

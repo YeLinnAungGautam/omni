@@ -8,7 +8,7 @@ use Hash;
 
 class RegisterController extends Controller
 {
-    
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -23,18 +23,18 @@ class RegisterController extends Controller
             'verification_code' => sha1(time()),
         ]);
         if($user != null){
-            MailController::sendSignupEmail($user->name, $user->email, $user->verification_code); 
+            MailController::sendSignupEmail($user->name, $user->email, $user->verification_code);
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Your Account Has Been Created Please Check Email for verification"    
+                'message' =>  "Your Account Has Been Created Please Check Email for verification"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"    
-            ], 404); 
-        }    
+                'message' =>  "Not Found"
+            ], 404);
+        }
     }
 
     public function verifyUser(Request $request)
@@ -46,12 +46,12 @@ class RegisterController extends Controller
             $user->save();
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Verification Completed! Please Log In Now"    
+                'message' =>  "Verification Completed! Please Log In Now"
             ], 201);
         }
         return response()->json([
             'status' => 'Fail',
-            'message' =>  "Please Verify Your Account"    
+            'message' =>  "Please Verify Your Account"
         ], 404);
     }
 
@@ -62,33 +62,37 @@ class RegisterController extends Controller
             'password' => 'required|string'
         ]);
         $user = User::where('email', $data['email'])->first();
-        $verify = User::where('email', $data['email'])->first()->is_verified;
+
         //Check Email
         if(!$user){
             return response([
                 'message' => 'Email Is Not Register'
             ], 401);
         }
-        //Check Password 
-        if(!Hash::check($data['password'], $user->password)){
-            return response([
-                'message' => 'Password Is Incorrect'
-            ], 401);
-        }
-        //Check Verified 
-        if($verify == 0){
-            return response([
-                'message' => 'Please Verify Your Account'
-            ], 401);
-        }
         else{
-            $token = $user->createToken('myapptoken')->plainTextToken;
-            $response = [
-                'user' => $user,
-                'token' => $token
-            ];
-            return response($response, 201);
+          $verify = User::where('email', $data['email'])->first()->is_verified;
+          //Check Password
+          if(!Hash::check($data['password'], $user->password)){
+              return response([
+                  'message' => 'Password Is Incorrect'
+              ], 401);
+          }
+          //Check Verified
+          if($verify == 0){
+              return response([
+                  'message' => 'Please Verify Your Account'
+              ], 401);
+          }
+          else{
+              $token = $user->createToken('myapptoken')->plainTextToken;
+              $response = [
+                  'user' => $user,
+                  'token' => $token
+              ];
+              return response($response, 201);
+          }
         }
+
     }
 
     public function show($id)

@@ -7,7 +7,7 @@ use App\Models\Category;
 use App\Models\SubCategory;
 
 class SubCategoryController extends Controller
-{ 
+{
     /**
      * Display a listing of the resource.
      *
@@ -55,8 +55,8 @@ class SubCategoryController extends Controller
             else{
                 return response()->json([
                     'status' => 'fail',
-                    'message' =>  "Not Found"   
-                ], 404); 
+                    'message' =>  "Not Found"
+                ], 404);
             }
     }
 
@@ -68,18 +68,18 @@ class SubCategoryController extends Controller
      */
     public function show($id)
     {
-        $sub_category = SubCategory::with('Category')->find($id);
+        $sub_category = SubCategory::with('Category','Product','Product.ProductImage')->find($id);
         if($sub_category){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $sub_category    
-            ], 201); 
+                'data' =>  $sub_category
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 
@@ -116,17 +116,17 @@ class SubCategoryController extends Controller
             ]);
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Updated"   
+                'message' =>  "Successfully Updated"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
+                'message' =>  "Not Found"
             ], 404);
         }
     }
- 
+
     /**
      * Remove the specified resource from storage.
      *
@@ -140,14 +140,14 @@ class SubCategoryController extends Controller
             $success->delete();
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Deleted"   
+                'message' =>  "Successfully Deleted"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 }

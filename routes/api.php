@@ -11,7 +11,9 @@ use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TermandConditionController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\IconController;
@@ -37,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 });
     //Category Protected Route
+    Route::get('/ztrade/index',[HomeController::class,'index']);
     Route::post('/category/create',[CategoryController::class,'store']);
     Route::post('/category/update/{id}',[CategoryController::class,'update']);
     Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
@@ -87,22 +90,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/aboutus/create',[AboutUsController::class,'store']);
     Route::post('/aboutus/update/{id}',[AboutUsController::class,'update']);
     Route::delete('/aboutus/delete/{id}',[AboutUsController::class,'delete']);
-
-    //Social Protected Route
-    Route::post('/social/create',[SocialController::class,'store']);
-    Route::post('/social/update/{id}',[SocialController::class,'update']);
-    Route::delete('/social/delete/{id}',[SocialController::class,'destroy']);
-
-    //Setting Protected Route
-    Route::post('/setting/create',[IconController::class,'store']);
-    Route::post('/setting/update/{id}',[IconController::class,'update']);
-
-    //User Protected Route 
-    Route::get('/user/show/{id}',[RegisterController::class,'show']);
-
-    //Social Route
-    Route::get('/social/list',[SocialController::class,'index']);
-    Route::get('/social/show/{id}',[SocialController::class,'show']);
 
     //Register
     Route::post('/user/register',[RegisterController::class,'store']);

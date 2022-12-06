@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AboutUs;
+use Exception;
 
 class AboutUsController extends Controller
 {
     public function store(Request $request)
-    { 
+    {
         $data = $request->validate([
             'description' => 'required|string',
         ]);
@@ -23,7 +24,7 @@ class AboutUsController extends Controller
 
     public function index()
     {
-        $aboutus = AboutUs::all();
+        $aboutus = AboutUs::all()->first();
         return $aboutus;
     }
 
@@ -33,19 +34,20 @@ class AboutUsController extends Controller
         if($aboutus){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $aboutus    
-            ], 201); 
+                'data' =>  $aboutus
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 
     public function update(Request $request, $id)
     {
+      try{
         $data = $request->validate([
             'description' => 'required|string',
         ]);
@@ -56,31 +58,38 @@ class AboutUsController extends Controller
             ]);
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Updated"   
+                'message' =>  "Successfully Updated"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
+                'message' =>  "Not Found"
             ], 404);
         }
+      }
+      catch(Exception $e){
+        return response()->json([
+            'message' => "Too large"
+        ], 500);
+      }
+
     }
-    
+
     public function delete($id){
         $success = AboutUs::find($id);
         if($success){
             $success->delete();
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Deleted"   
+                'message' =>  "Successfully Deleted"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 
