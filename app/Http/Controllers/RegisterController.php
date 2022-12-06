@@ -90,4 +90,10 @@ class RegisterController extends Controller
             return response($response, 201);
         }
     }
+
+    public function show($id)
+    {
+        $user = User::find($id);
+        return ["user" => $user];
+    }
 }
