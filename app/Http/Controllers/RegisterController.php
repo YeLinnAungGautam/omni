@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Hash;
 
 class RegisterController extends Controller
@@ -14,13 +16,18 @@ class RegisterController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
+            'profile_image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
             'factory' => 'required|string',
             'password' => 'required',
         ]);
+        $file= $request->file('profile_image');
+        $filename= date('YmdHi').$file->getClientOriginalName();
+        $file-> move(public_path('storage/profile_pictures'), $filename);
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'factory_name' => $data['factory'],
+            'profile_pic' => $filename,
             'password'=> Hash::make($data['password']),
             'verification_code' => sha1(time()),
         ]);
@@ -101,5 +108,65 @@ class RegisterController extends Controller
     {
         $user = User::find($id);
         return ["user" => $user];
+    }
+
+    public function update(Request $request,$id)
+    {
+        $profile_update_find = User::find($id);
+        if($profile_update_find){
+            if($request->hasFile('profile_pic') != null)
+            {
+                $file= $request->file('profile_pic');
+                $filename= date('YmdHi').$file->getClientOriginalName();
+                $file-> move(public_path('storage/profile_pictures'), $filename);
+                if(File::exists(public_path('storage/profile_pictures/'.$profile_update_find->profile_pic)))
+                {
+                    File::delete(public_path('storage/profile_pictures/'.$profile_update_find->profile_pic));
+                    $profile_update_find->update([
+                        'name' => $request->name ?? $profile_update_find->name,
+                        'email' => $request->email ?? $profile_update_find->email,
+                        'factory_name' => $request->factory_name ?? $profile_update_find->factory_name,
+                        'profile_pic' => $filename 
+                    ]);
+                    return response()->json([
+                        'status' => 'success',
+                        'message' =>  "Successfully Updated"    
+                    ], 201);
+                }
+                else
+                {
+                    $profile_update_find->update([
+                        'name' => $request->name ?? $profile_update_find->name,
+                        'email' => $request->email ?? $profile_update_find->email,
+                        'factory_name' => $request->factory_name ?? $profile_update_find->factory_name,
+                        'profile_pic' => $filename ?? $profile_update_find->profile_pic
+                    ]);
+                    return response()->json([
+                        'status' => 'success',
+                        'message' =>  "Successfully Updated"    
+                    ], 201);
+                }
+            }
+            else
+            {
+                $profile_update_find->update([
+                    'name' => $request->name ?? $profile_update_find->name,
+                    'email' => $request->email ?? $profile_update_find->email,
+                    'factory_name' => $request->factory_name ?? $profile_update_find->factory_name,
+                    // 'profile_pic' => $filename 
+                ]);
+                return response()->json([
+                    'status' => 'success',
+                    'message' =>  "Successfully Updated"    
+                ], 201);
+            }
+            
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"
+            ], 404);
+        }
     }
 }

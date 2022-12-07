@@ -122,6 +122,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //USer
     Route::get('/user/show/{id}',[RegisterController::class,'show']);
+    Route::post('/user/update/{id}',[RegisterController::class,'update']);
 
     //About Us
     Route::get('/aboutus/list',[AboutUsController::class,'index']);
