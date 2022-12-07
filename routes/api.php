@@ -120,6 +120,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/product/list',[ProductController::class,'index']);
     Route::get('/product/show/{id}',[ProductController::class,'show']);
 
+    //USer
+    Route::get('/user/show/{id}',[RegisterController::class,'show']);
+
     //About Us
     Route::get('/aboutus/list',[AboutUsController::class,'index']);
     Route::get('/aboutus/show/{id}',[AboutUsController::class,'show']);
