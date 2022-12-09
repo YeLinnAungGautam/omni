@@ -144,3 +144,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //Top Selling
     Route::get('/topselling',[ProductController::class,'topselling']);
+
+    //Search 
+    Route::get('/search',[ProductController::class,'search']);
