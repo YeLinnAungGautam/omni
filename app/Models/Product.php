@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
+use Laravel\Sanctum\HasApiTokens;
 
 class Product extends Model
 {
-    use HasFactory;
-
+  use HasApiTokens,HasFactory,HasRoles;
+  protected $guard_name = 'api';
     protected $fillable =[
         'name',
         'price',
@@ -35,6 +37,6 @@ class Product extends Model
         return $this->hasOne(Percentages::class, 'id', 'percentage_id');
     }
     public function Store(){
-        return $this->belongsTo(Store::class,'store_id'); 
+        return $this->belongsTo(Store::class,'store_id');
     }
 }

@@ -9,7 +9,17 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 class StoreController extends Controller
-{ 
+{
+
+  function __construct()
+  {
+       // $this->middleware('permission:slider-list|slider-create|slider-edit|slider-delete', ['only' => ['index','store']]);
+       $this->middleware('permission:slider-list', ['only' => ['index']]);
+       $this->middleware('permission:slider-create', ['only' => ['create','store']]);
+       $this->middleware('permission:slider-edit', ['only' => ['edit','update']]);
+       $this->middleware('permission:slider-delete', ['only' => ['destroy']]);
+  }
+
     public function index()
     {
         $store = Store::with('Slider')->get();
@@ -34,9 +44,9 @@ class StoreController extends Controller
             return response()->json([
                 'status' => 'success',
                 'data' =>  $store,
-                'image-url' => Storage::url("store_image/".$store_image_name)   
+                'image-url' => Storage::url("store_image/".$store_image_name)
             ], 201);
-        } 
+        }
     }
     public function update($id,Request $request){
         // $data = $request->validate([
@@ -57,7 +67,7 @@ class StoreController extends Controller
                 ]);
                 return response()->json([
                     'status' => 'success',
-                    'message' =>  "Successfully Updated"    
+                    'message' =>  "Successfully Updated"
                 ], 201);
                 }
                 else{
@@ -67,7 +77,7 @@ class StoreController extends Controller
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
                 }
             }
@@ -77,15 +87,15 @@ class StoreController extends Controller
                 ]);
                 return response()->json([
                     'status' => 'success',
-                    'message' =>  "Successfully Updated"    
+                    'message' =>  "Successfully Updated"
                 ], 201);
             }
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"    
-            ], 404);  
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     public function show($uniqueid)
@@ -96,14 +106,14 @@ class StoreController extends Controller
         if($store){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $store    
-            ], 201); 
+                'data' =>  $store
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     public function showproduct($id)
@@ -112,14 +122,14 @@ class StoreController extends Controller
         if($store_product_slider){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $store_product_slider    
-            ], 201); 
+                'data' =>  $store_product_slider
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     public function destroy($id)
@@ -131,14 +141,14 @@ class StoreController extends Controller
             File::delete(public_path('storage/store_image/'.$filename));
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Deleted"   
+                'message' =>  "Successfully Deleted"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     private function UniqueId()

@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PrivacyPolicySeeder::class);
         $this->call(TermandConditionSeeder::class);
         $this->call(PermissionTableSeeder::class);
+        $this->call(UserSeeder::class);
     }
 }

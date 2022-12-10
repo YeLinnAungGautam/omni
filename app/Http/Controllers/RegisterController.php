@@ -72,6 +72,7 @@ class RegisterController extends Controller
             ], 401);
         }
         else{
+          $user = User::where('email', $data['email'])->first();
           $verify = User::where('email', $data['email'])->first()->is_verified;
           //Check Password
           if(!Hash::check($data['password'], $user->password)){
@@ -87,6 +88,7 @@ class RegisterController extends Controller
           }
           else{
               $token = $user->createToken('myapptoken')->plainTextToken;
+              $user->api_token = $token;
               $response = [
                   'user' => $user,
                   'token' => $token
@@ -100,6 +102,7 @@ class RegisterController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return ["user" => $user];
+        $user_permissions = $user->getAllPermissions();
+        return ["user" => $user,'permissions' => $user_permissions];
     }
 }

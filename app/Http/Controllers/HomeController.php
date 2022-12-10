@@ -8,6 +8,7 @@ use App\Models\SubCategory;
 use App\Models\Store;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\Banner;
 
 class HomeController extends Controller
 {
@@ -27,6 +28,7 @@ class HomeController extends Controller
           'top_selling' => 1,
       ])->get();
       $store = Store::with('Slider')->get();
+      $banners = Banner::all();
 
       return response()->json([
         "categories" => $category,
@@ -34,7 +36,8 @@ class HomeController extends Controller
         "products" => $product,
         "newarrival" => $new_arrival,
         "mostpopular" => $most_popular,
-        "topselling" => $top_selling
+        "topselling" => $top_selling,
+        "banners" => $banners
       ], 200);
     }
 }

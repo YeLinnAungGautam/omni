@@ -18,6 +18,7 @@ use App\Http\Controllers\TermandConditionController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NonAuthController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -35,25 +36,12 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 //     return $request->user();
 // });
 
-Route::group(['middleware' => ['auth:sanctum']], function(){
-  Route::post('/product/create',[ProductController::class,'store']);
-  Route::get('/product/list',[ProductController::class,'index']);
+// Route::group(['middleware' => ['auth:sanctum']], function(){
+//   Route::post('/slider/create',[SliderController::class,'store']);
+//   Route::get('/slider/list',[SliderController::class,'index']);
+// });
 
-  Route::post('/store/create',[StoreController::class,'store']);
-  Route::get('/store/list',[StoreController::class,'index']);
-
-  Route::post('/slider/create',[SliderController::class,'store']);
-  Route::get('/slider/list',[SliderController::class,'index']);
-
-  Route::post('/banner/create',[BannerController::class,'store']);
-  Route::get('/banner/list',[BannerController::class,'index']);
-
-  Route::post('/category/create',[CategoryController::class,'store']);
-  Route::get('/category/list',[CategoryController::class,'index']);
-
-});
-
-
+    Route::get('/slider/list',[NonAuthController::class,'sliderList']);
     //Category Protected Route
     Route::get('/ztrade/index',[HomeController::class,'index']);
     Route::get('/roleandpermission/lists',[RoleController::class,'index']);
@@ -62,7 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/staffs',[UserController::class,'index']);
     Route::post('/adduser',[UserController::class,'store']);
 
-    // Route::post('/category/create',[CategoryController::class,'store']);
+    Route::post('/category/create',[CategoryController::class,'store']);
     Route::post('/category/update/{id}',[CategoryController::class,'update']);
     Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
 
@@ -77,7 +65,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/percentage/show/{id}',[PercentageController::class,'show']);
 
     //Store Protected Route
-    // Route::post('/store/create',[StoreController::class,'store']);
+    Route::post('/store/create',[StoreController::class,'store']);
     Route::post('/store/update/{id}',[StoreController::class,'update']);
     Route::delete('/store/delete/{id}',[StoreController::class,'destroy']);
 
@@ -87,13 +75,13 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
 
     //Banner Protected Route
-    // Route::post('/banner/create',[BannerController::class,'store']);
+    Route::post('/banner/create',[BannerController::class,'store']);
     Route::post('/banner/update/{id}',[BannerController::class,'update']);
     Route::delete('/banner/delete/{id}',[BannerController::class,'destroy']);
 
 
     //Product Protected Route
-    // Route::post('/product/create',[ProductController::class,'store']);
+    Route::post('/product/create',[ProductController::class,'store']);
     Route::post('/product/update/{id}',[ProductController::class,'update']);
     Route::delete('/product/imagedelete/{id}',[ProductController::class,'destroyImage']);
     Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
@@ -118,43 +106,43 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/login',[RegisterController::class,'login']);
 
     //Category
-    // Route::get('/category/list',[CategoryController::class,'index']);
-    Route::get('/category/show/{id}',[CategoryController::class,'show']);
+    Route::get('/category/list',[NonAuthController::class,'categoryList']);
+    Route::get('/category/show/{id}',[NonAuthController::class,'categoryListShow']);
 
     // SubCategory
-    Route::get('/subcategory/list',[SubCategoryController::class,'index']);
-    Route::get('/subcategory/show/{id}',[SubCategoryController::class,'show']);
+    Route::get('/subcategory/list',[NonAuthController::class,'subCategoryList']);
+    Route::get('/subcategory/show/{id}',[NonAuthController::class,'subCategoryShow']);
 
     //Store
-    // Route::get('/store/list',[StoreController::class,'index']);
-    Route::get('/store/show/{uniqueid}',[StoreController::class,'show']);
-    Route::get('/store/showwithproduct/{id}',[StoreController::class,'showproduct']);
+    Route::get('/store/list',[NonAuthController::class,'brandList']);
+    Route::get('/store/show/{uniqueid}',[NonAuthController::class,'brandShow']);
+    Route::get('/store/showwithproduct/{id}',[NonAuthController::class,'showBrandWithProduct']);
 
     //Slider
     // Route::get('/slider/list',[SliderController::class,'index']);
     Route::get('slider/show/{id}',[SliderController::class,'show']);
 
     //Banner
-    // Route::get('/banner/list',[BannerController::class,'index']);
+    Route::get('/banner/list',[BannerController::class,'index']);
     Route::get('banner/show/{id}',[BannerController::class,'show']);
 
     //Product
-    // Route::get('/product/list',[ProductController::class,'index']);
-    Route::get('/product/show/{id}',[ProductController::class,'show']);
+    Route::get('/product/list',[NonAuthController::class,'productList']);
+    Route::get('/product/show/{id}',[NonAuthController::class,'productShow']);
 
     //USer
     Route::get('/user/show/{id}',[RegisterController::class,'show']);
 
     //About Us
-    Route::get('/aboutus/list',[AboutUsController::class,'index']);
+    Route::get('/aboutus/list',[NonAuthController::class,'aboutus']);
     Route::get('/aboutus/show/{id}',[AboutUsController::class,'show']);
 
     //Privacy Policy
-    Route::get('/privacypolicy/list',[PrivacyPolicyController::class,'index']);
+    Route::get('/privacypolicy/list',[NonAuthController::class,'privacypolicy']);
     Route::get('/privacypolicy/show/{id}',[PrivacyPolicyController::class,'show']);
 
     //TermandCondition
-    Route::get('/termandcondition/list',[TermandConditionController::class,'index']);
+    Route::get('/termandcondition/list',[NonAuthController::class,'termsandconditions']);
     Route::get('/termandcondition/show/{id}',[TermandConditionController::class,'show']);
 
     //New Arrival

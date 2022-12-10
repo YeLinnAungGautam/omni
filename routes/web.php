@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SliderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,4 +18,10 @@ Route::get('/', function () {
     return view('welcome',);
 });
 
+// Route::group(['middleware' => ['auth']], function(){
+//   Route::get('/slider/list',[SliderController::class,'index']);
+// });
+
+// Route::get('/slider/list',[SliderController::class,'index']);
+// Route::get('/slider/list',[SliderController::class,'index']);
 Route::get('/verify',[RegisterController::class,'verifyUser'])->name('verify.user');

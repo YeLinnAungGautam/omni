@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\File;
 class BannerController extends Controller
 {
 
+  function __construct()
+  {
+       // $this->middleware('permission:slider-list|slider-create|slider-edit|slider-delete', ['only' => ['index','store']]);
+       $this->middleware('permission:banner-list', ['only' => ['index']]);
+       $this->middleware('permission:banner-create', ['only' => ['create','store']]);
+       $this->middleware('permission:banner-edit', ['only' => ['edit','update']]);
+       $this->middleware('permission:banner-delete', ['only' => ['destroy']]);
+  }
+
     public function index()
     {
         $banner = Banner::all();
