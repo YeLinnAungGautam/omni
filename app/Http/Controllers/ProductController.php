@@ -307,4 +307,11 @@ class ProductController extends Controller
             'status' => 'success',
         ], 201);
     }
+
+    public function search(Request $request)
+    {
+        $search_data = $request->search;
+        
+        
+    }   
 }

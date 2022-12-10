@@ -144,6 +144,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //USer
     Route::get('/user/show/{id}',[RegisterController::class,'show']);
+    Route::post('/user/update/{id}',[RegisterController::class,'update']);
 
     //About Us
     Route::get('/aboutus/list',[AboutUsController::class,'index']);
@@ -165,3 +166,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //Top Selling
     Route::get('/topselling',[ProductController::class,'topselling']);
+
+    //Search 
+    Route::get('/search',[ProductController::class,'search']);
