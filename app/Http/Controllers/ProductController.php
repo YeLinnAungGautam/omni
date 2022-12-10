@@ -9,6 +9,8 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Store;
 use App\Models\SubCategory;
+use App\Models\SearchList;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
@@ -310,7 +312,17 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
-        $search_data = $request->search;
+        $search = $request->search ?? "";
+        if($search != "")
+        {
+            $product = Product::where('name','LIKE',"$search%")->get();
+            SearchList::create([
+                'search_data' => $search,
+                'user_id' => 1,
+            ]);
+            return $product;
+        }
+        
         
         
     }   
