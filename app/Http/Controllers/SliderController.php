@@ -47,7 +47,8 @@ class SliderController extends Controller
         $store_id = Store::find($request->store_id);
         if($store_id){
             $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
+            $filename= time().$file->getClientOriginalName();
+            // $filename= $date.$file->getClientOriginalName();
             $file-> move(public_path('storage/slider_image'), $filename);
             $slider = Slider::create([
                 'name' => $data['name'],
@@ -65,7 +66,7 @@ class SliderController extends Controller
         }
         else{
             $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
+            $filename= time().$file->getClientOriginalName();
             $file-> move(public_path('storage/slider_image'), $filename);
             $slider = Slider::create([
                 'name' => $data['name'],
@@ -138,7 +139,7 @@ class SliderController extends Controller
         if($slider_find_to_update && $storeid_to_update){
             if($request->hasFile('image') != null){
                 $file= $request->file('image');
-                $filename= date('YmdHi').$file->getClientOriginalName();
+                $filename= time().$file->getClientOriginalName();
                 $file-> move(public_path('storage/slider_image'), $filename);
                 if(File::exists(public_path('storage/slider_image/'.$slider_find_to_update->image))){
                     File::delete(public_path('storage/slider_image/'.$slider_find_to_update->image));
@@ -178,7 +179,7 @@ class SliderController extends Controller
         else{
             if($request->hasFile('image') != null){
                 $file= $request->file('image');
-                $filename= date('YmdHi').$file->getClientOriginalName();
+                $filename= time().$file->getClientOriginalName();
                 $file-> move(public_path('storage/slider_image'), $filename);
                 if(File::exists(public_path('storage/slider_image/'.$slider_find_to_update->image))){
                     File::delete(public_path('storage/slider_image/'.$slider_find_to_update->image));

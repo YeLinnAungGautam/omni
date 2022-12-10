@@ -21,7 +21,7 @@ class RegisterController extends Controller
             'password' => 'required',
         ]);
         $file= $request->file('profile_image');
-        $filename= date('YmdHi').$file->getClientOriginalName();
+        $filename= time().$file->getClientOriginalName();
         $file-> move(public_path('storage/profile_pictures'), $filename);
         $user = User::create([
             'name' => $data['name'],
@@ -117,7 +117,7 @@ class RegisterController extends Controller
             if($request->hasFile('profile_pic') != null)
             {
                 $file= $request->file('profile_pic');
-                $filename= date('YmdHi').$file->getClientOriginalName();
+                $filename= time().$file->getClientOriginalName();
                 $file-> move(public_path('storage/profile_pictures'), $filename);
                 if(File::exists(public_path('storage/profile_pictures/'.$profile_update_find->profile_pic)))
                 {

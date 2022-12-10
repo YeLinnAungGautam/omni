@@ -22,7 +22,7 @@ class StoreController extends Controller
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $file= $request->file('image');
-        $filename= date('YmdHi').$file->getClientOriginalName();
+        $filename= time().$file->getClientOriginalName();
         $file-> move(public_path('storage/store_image'), $filename);
         $store = Store::create([
             'brand_name' => $data['name'],
@@ -47,7 +47,7 @@ class StoreController extends Controller
         if($store_update){
             if($request->hasFile('image') != null){
                 $file= $request->file('image');
-                $filename= date('YmdHi').$file->getClientOriginalName();
+                $filename= time().$file->getClientOriginalName();
                 $file-> move(public_path('storage/store_image'), $filename);
                 if(File::exists(public_path('storage/store_image/'.$store_update->image))){
                    File::delete(public_path('storage/store_image/'.$store_update->image));

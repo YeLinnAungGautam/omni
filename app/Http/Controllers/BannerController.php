@@ -23,7 +23,7 @@ class BannerController extends Controller
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $file= $request->file('image');
-        $filename= date('YmdHi').$file->getClientOriginalName();
+        $filename= time().$file->getClientOriginalName();
         $file-> move(public_path('storage/banner_image'), $filename);
         $banner = Banner::create([
             'name' => $data['name'],
@@ -49,7 +49,7 @@ class BannerController extends Controller
         if($banner_update){
             if($request->hasFile('image') != null){
                 $file= $request->file('image');
-                $filename= date('YmdHi').$file->getClientOriginalName();
+                $filename= time().$file->getClientOriginalName();
                 $file-> move(public_path('storage/banner_image'), $filename);
                 if(File::exists(public_path('storage/banner_image/'.$banner_update->image))){
                    File::delete(public_path('storage/banner_image/'.$banner_update->image));
