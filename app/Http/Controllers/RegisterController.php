@@ -106,7 +106,7 @@ class RegisterController extends Controller
 
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::with('Searchlist')->find($id);
         return ["user" => $user];
     }
 

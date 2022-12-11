@@ -13,4 +13,7 @@ class SearchList extends Model
         'search_data',
         'user_id'
     ];
+    public function User(){
+        return $this->belongsTo(User::class,'user_id');
+    }
 }

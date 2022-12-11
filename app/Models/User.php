@@ -45,4 +45,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function Searchlist(){
+        return $this->hasMany(Searchlist::class,'user_id');
+    }
 }
