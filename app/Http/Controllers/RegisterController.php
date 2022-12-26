@@ -129,11 +129,11 @@ class RegisterController extends Controller
                         'name' => $request->name ?? $profile_update_find->name,
                         'email' => $request->email ?? $profile_update_find->email,
                         'factory_name' => $request->factory_name ?? $profile_update_find->factory_name,
-                        'profile_pic' => $filename 
+                        'profile_pic' => $filename
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
                 }
                 else
@@ -146,7 +146,7 @@ class RegisterController extends Controller
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
                 }
             }
@@ -154,16 +154,15 @@ class RegisterController extends Controller
             {
                 $profile_update_find->update([
                     'name' => $request->name ?? $profile_update_find->name,
-                    'email' => $request->email ?? $profile_update_find->email,
+
                     'factory_name' => $request->factory_name ?? $profile_update_find->factory_name,
-                    // 'profile_pic' => $filename 
+                    // 'profile_pic' => $filename
                 ]);
                 return response()->json([
-                    'status' => 'success',
-                    'message' =>  "Successfully Updated"    
+                    "user" => $profile_update_find
                 ], 201);
             }
-            
+
         }
         else{
             return response()->json([

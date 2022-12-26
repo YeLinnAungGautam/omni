@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function index(){
       $category = Category::with('SubCategory','Product')->get();
       $slider = Slider::with('Store')->get();
-      $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id','DESC')->take(5)->get() ;
+      $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id','DESC')->limit(30)->get() ;
       $new_arrival = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where([
           'new_arrival' => 1,
       ])->get();

@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-  use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use DB;
 
 class RoleController extends Controller
 {
     //
     public function index(Request $request)
     {
-        $roles = Role::orderBy('id','DESC')->get();
+        $roles = Role::with("permissions")->orderBy('id','DESC')->get();
         $permission = Permission::get();
         return response()->json([
             'roles'=>$roles,
@@ -67,7 +68,14 @@ class RoleController extends Controller
 
         $role->syncPermissions($request->input('permission'));
 
-        return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+
     }
+
+    public function destroy($id)
+     {
+         DB::table("roles")->where('id',$id)->delete();
+         return response()->json([
+           "message"=>"success"
+         ], 200);
+     }
 }

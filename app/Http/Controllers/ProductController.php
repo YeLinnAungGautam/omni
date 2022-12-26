@@ -39,6 +39,8 @@ class ProductController extends Controller
         return $product;
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -310,20 +312,27 @@ class ProductController extends Controller
         ], 201);
     }
 
-    public function search(Request $request)
-    {
-        $search = $request->search ?? "";
-        if($search != "")
-        {
-            $product = Product::where('name','LIKE',"$search%")->get();
-            SearchList::create([
-                'search_data' => $search,
-                'user_id' => 1,
-            ]);
-            return $product;
-        }
-        
-        
-        
-    }   
+    public function search($productName,$categoryId)
+   {
+
+       if($categoryId == 'null')
+       {
+           $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where('name','LIKE',"$productName%")->get();
+           return $product;
+       }
+       // else{
+       //   if($search != "")
+       //   {
+       //       $product = Product::where('name','LIKE',"$search%")->get();
+       //       SearchList::create([
+       //           'search_data' => $search,
+       //           'user_id' => $request->session_id,
+       //       ]);
+       //       return $product;
+       //   }
+       // }
+
+
+
+   }
 }

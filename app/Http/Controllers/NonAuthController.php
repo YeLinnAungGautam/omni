@@ -22,6 +22,13 @@ class NonAuthController extends Controller
        return $category;
     }
 
+
+    public function productListWithLimit()
+    {
+        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->inRandomOrder()->limit(20)->get();
+        return $product;
+    }
+
     public function categoryListShow($id)
     {
         $category = Category::with('SubCategory','Product','Product.ProductImage')->find($id);
@@ -62,7 +69,7 @@ class NonAuthController extends Controller
 
     public function productList()
     {
-        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->get();
+        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->get();
         return $product;
     }
     public function productShow($id)

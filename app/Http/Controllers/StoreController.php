@@ -14,15 +14,15 @@ class StoreController extends Controller
   function __construct()
   {
        // $this->middleware('permission:slider-list|slider-create|slider-edit|slider-delete', ['only' => ['index','store']]);
-       $this->middleware('permission:slider-list', ['only' => ['index']]);
-       $this->middleware('permission:slider-create', ['only' => ['create','store']]);
-       $this->middleware('permission:slider-edit', ['only' => ['edit','update']]);
-       $this->middleware('permission:slider-delete', ['only' => ['destroy']]);
+       $this->middleware('permission:brand-list', ['only' => ['index']]);
+       $this->middleware('permission:brand-create', ['only' => ['create','store']]);
+       $this->middleware('permission:brand-edit', ['only' => ['edit','update']]);
+       $this->middleware('permission:brand-delete', ['only' => ['destroy']]);
   }
 
     public function index()
     {
-        $store = Store::with('Slider')->get();
+        $store = Store::with('Slider','Product')->get();
         return $store;
     }
     public function store(Request $request)
