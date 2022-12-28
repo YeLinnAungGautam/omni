@@ -79,6 +79,7 @@ class RegisterController extends Controller
             ], 401);
         }
         else{
+          $user = User::where('email', $data['email'])->first();
           $verify = User::where('email', $data['email'])->first()->is_verified;
           //Check Password
           if(!Hash::check($data['password'], $user->password)){
@@ -94,6 +95,7 @@ class RegisterController extends Controller
           }
           else{
               $token = $user->createToken('myapptoken')->plainTextToken;
+              $user->api_token = $token;
               $response = [
                   'user' => $user,
                   'token' => $token
@@ -106,7 +108,7 @@ class RegisterController extends Controller
 
     public function show($id)
     {
-        $user = User::with('Searchlist')->find($id);
+        $user = User::find($id);
         return ["user" => $user];
     }
 
@@ -126,11 +128,11 @@ class RegisterController extends Controller
                         'name' => $request->name ?? $profile_update_find->name,
                         'email' => $request->email ?? $profile_update_find->email,
                         'factory_name' => $request->factory_name ?? $profile_update_find->factory_name,
-                        'profile_pic' => $filename 
+                        'profile_pic' => $filename
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
                 }
                 else
@@ -143,7 +145,7 @@ class RegisterController extends Controller
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
                 }
             }
@@ -151,16 +153,15 @@ class RegisterController extends Controller
             {
                 $profile_update_find->update([
                     'name' => $request->name ?? $profile_update_find->name,
-                    'email' => $request->email ?? $profile_update_find->email,
+
                     'factory_name' => $request->factory_name ?? $profile_update_find->factory_name,
-                    // 'profile_pic' => $filename 
+                    // 'profile_pic' => $filename
                 ]);
                 return response()->json([
-                    'status' => 'success',
-                    'message' =>  "Successfully Updated"    
+                    "user" => $profile_update_find
                 ], 201);
             }
-            
+
         }
         else{
             return response()->json([

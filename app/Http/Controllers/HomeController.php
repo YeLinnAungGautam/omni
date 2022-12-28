@@ -8,6 +8,7 @@ use App\Models\SubCategory;
 use App\Models\Store;
 use App\Models\Product;
 use App\Models\Slider;
+use App\Models\Banner;
 
 class HomeController extends Controller
 {
@@ -16,7 +17,7 @@ class HomeController extends Controller
     public function index(){
       $category = Category::with('SubCategory','Product')->get();
       $slider = Slider::with('Store')->get();
-      $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id','DESC')->take(5)->get() ;
+      $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id','DESC')->limit(30)->get() ;
       $new_arrival = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where([
           'new_arrival' => 1,
       ])->get();
@@ -27,6 +28,7 @@ class HomeController extends Controller
           'top_selling' => 1,
       ])->get();
       $store = Store::with('Slider')->get();
+      $banners = Banner::all();
 
       return response()->json([
         "categories" => $category,
@@ -34,7 +36,8 @@ class HomeController extends Controller
         "products" => $product,
         "newarrival" => $new_arrival,
         "mostpopular" => $most_popular,
-        "topselling" => $top_selling
+        "topselling" => $top_selling,
+        "banners" => $banners
       ], 200);
     }
 }

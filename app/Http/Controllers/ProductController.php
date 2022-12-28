@@ -17,6 +17,17 @@ use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
+
+
+  function __construct()
+  {
+       // $this->middleware('permission:slider-list|slider-create|slider-edit|slider-delete', ['only' => ['index','store']]);
+       $this->middleware('permission:product-list', ['only' => ['index']]);
+       $this->middleware('permission:product-create', ['only' => ['create','store']]);
+       $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+       $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+  }
+
     /**
      * Display a listing of the resource.
      *
@@ -28,6 +39,8 @@ class ProductController extends Controller
         return $product;
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -36,6 +49,12 @@ class ProductController extends Controller
     public function create()
     {
         //
+        $category = Category::with('SubCategory','Product')->get();
+        $store = Store::with('Slider')->get();
+        return response()->json([
+          "categories" => $category,
+          "stores" => $store
+      ], 200);
     }
 
     /**

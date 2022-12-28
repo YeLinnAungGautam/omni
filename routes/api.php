@@ -17,6 +17,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TermandConditionController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\IconController;
+use App\Http\Controllers\UserController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -35,14 +36,67 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 // });
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
+  Route::post('/product/create',[ProductController::class,'store']);
+  Route::get('/product/list',[ProductController::class,'index']);
+
+  Route::get('/roleandpermission/lists',[RoleController::class,'index']);
+  Route::post('/addroleandpermision/',[RoleController::class,'store']);
+  Route::get('/permission/lists',[RoleController::class,'index']);
+
+  Route::post('/store/create',[StoreController::class,'store']);
+  Route::get('/store/list',[StoreController::class,'index']);
+
+  Route::post('/slider/create',[SliderController::class,'store']);
+  Route::get('/slider/list',[SliderController::class,'index']);
+
+  Route::post('/banner/create',[BannerController::class,'store']);
+  Route::get('/banner/list',[BannerController::class,'index']);
+
+  Route::post('/category/create',[CategoryController::class,'store']);
+  Route::get('/category/list',[CategoryController::class,'index']);
+
+  Route::post('/slider/update/{id}',[SliderController::class,'update']);
+  Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
+
+  Route::post('/product/update/{id}',[ProductController::class,'update']);
+  Route::delete('/product/imagedelete/{id}',[ProductController::class,'destroyImage']);
+  Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
+
+
+  Route::post('/category/update/{id}',[CategoryController::class,'update']);
+  Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
+
+  Route::post('/subcategory/create',[SubCategoryController::class,'store']);
+  Route::post('/subcategory/update/{id}',[SubCategoryController::class,'update']);
+  Route::delete('/subcategory/delete/{id}',[SubCategoryController::class,'destroy']);
+
+  Route::post('/banner/update/{id}',[BannerController::class,'update']);
+  Route::delete('/banner/delete/{id}',[BannerController::class,'destroy']);
+
+  Route::post('/store/update/{id}',[StoreController::class,'update']);
+  Route::delete('/store/delete/{id}',[StoreController::class,'destroy']);
+
+  Route::post('/staff/update/{id}',[UserController::class,'update']);
+  Route::delete('/staff/delete/{id}',[UserController::class,'destroy']);
+
+
+  Route::delete('/role/delete/{id}',[RoleController::class,'destroy']);
+
 
 
 });
+
+
     //Category Protected Route
     Route::get('/ztrade/index',[HomeController::class,'index']);
-    Route::post('/category/create',[CategoryController::class,'store']);
-    Route::post('/category/update/{id}',[CategoryController::class,'update']);
-    Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
+
+
+    Route::get('/staffs',[UserController::class,'index']);
+    Route::post('/adduser',[UserController::class,'store']);
+
+    // Route::post('/category/create',[CategoryController::class,'store']);
+    // Route::post('/category/update/{id}',[CategoryController::class,'update']);
+    // Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
 
     //SubCategory Protected Route
     Route::post('/subcategory/create',[SubCategoryController::class,'store']);
@@ -55,26 +109,25 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/percentage/show/{id}',[PercentageController::class,'show']);
 
     //Store Protected Route
-    Route::post('/store/create',[StoreController::class,'store']);
-    Route::post('/store/update/{id}',[StoreController::class,'update']);
-    Route::delete('/store/delete/{id}',[StoreController::class,'destroy']);
+    // Route::post('/store/create',[StoreController::class,'store']);
+
 
     //Slider Protected Route
-    Route::post('/slider/create',[SliderController::class,'store']);
-    Route::post('/slider/update/{id}',[SliderController::class,'update']);
-    Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
+
+    // Route::post('/slider/update/{id}',[SliderController::class,'update']);
+    // Route::delete('/slider/delete/{id}',[SliderController::class,'destroy']);
 
     //Banner Protected Route
-    Route::post('/banner/create',[BannerController::class,'store']);
-    Route::post('/banner/update/{id}',[BannerController::class,'update']);
-    Route::delete('/banner/delete/{id}',[BannerController::class,'destroy']);
+    // Route::post('/banner/create',[BannerController::class,'store']);
+    // Route::post('/banner/update/{id}',[BannerController::class,'update']);
+    // Route::delete('/banner/delete/{id}',[BannerController::class,'destroy']);
 
 
     //Product Protected Route
-    Route::post('/product/create',[ProductController::class,'store']);
-    Route::post('/product/update/{id}',[ProductController::class,'update']);
-    Route::delete('/product/imagedelete/{id}',[ProductController::class,'destroyImage']);
-    Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
+    // Route::post('/product/create',[ProductController::class,'store']);
+    // Route::post('/product/update/{id}',[ProductController::class,'update']);
+    // Route::delete('/product/imagedelete/{id}',[ProductController::class,'destroyImage']);
+    // Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
 
     //Privacy Policy Protected Route
     Route::post('/privacypolicy/create',[PrivacyPolicyController::class,'store']);
@@ -96,7 +149,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/login',[RegisterController::class,'login']);
 
     //Category
-    Route::get('/category/list',[CategoryController::class,'index']);
+    // Route::get('/category/list',[CategoryController::class,'index']);
     Route::get('/category/show/{id}',[CategoryController::class,'show']);
 
     // SubCategory
@@ -104,20 +157,20 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/subcategory/show/{id}',[SubCategoryController::class,'show']);
 
     //Store
-    Route::get('/store/list',[StoreController::class,'index']);
+    // Route::get('/store/list',[StoreController::class,'index']);
     Route::get('/store/show/{uniqueid}',[StoreController::class,'show']);
     Route::get('/store/showwithproduct/{id}',[StoreController::class,'showproduct']);
 
     //Slider
-    Route::get('/slider/list',[SliderController::class,'index']);
+    // Route::get('/slider/list',[SliderController::class,'index']);
     Route::get('slider/show/{id}',[SliderController::class,'show']);
 
     //Banner
-    Route::get('/banner/list',[BannerController::class,'index']);
+    // Route::get('/banner/list',[BannerController::class,'index']);
     Route::get('banner/show/{id}',[BannerController::class,'show']);
 
     //Product
-    Route::get('/product/list',[ProductController::class,'index']);
+    // Route::get('/product/list',[ProductController::class,'index']);
     Route::get('/product/show/{id}',[ProductController::class,'show']);
 
     //USer
@@ -145,5 +198,5 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     //Top Selling
     Route::get('/topselling',[ProductController::class,'topselling']);
 
-    //Search 
-    Route::get('/search',[ProductController::class,'search']);
+    //Search
+    Route::get('/search/{product_name}/{category_id}',[ProductController::class,'search']);

@@ -10,7 +10,17 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
-    /**
+
+  function __construct()
+  {
+       // $this->middleware('permission:slider-list|slider-create|slider-edit|slider-delete', ['only' => ['index','store']]);
+       $this->middleware('permission:category-list', ['only' => ['index','subcategorylist']]);
+       $this->middleware('permission:category-create', ['only' => ['create','store','subcategorystore']]);
+       $this->middleware('permission:category-edit', ['only' => ['edit','update','subcategoryupdate']]);
+       $this->middleware('permission:category-delete', ['only' => ['destroy','subcategorydestroy']]);
+  }
+
+      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -39,7 +49,7 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    { 
+    {
         $data = $request->validate([
             'name' => 'required|string',
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
@@ -74,13 +84,13 @@ class CategoryController extends Controller
         $category = Category::with('SubCategory','Product','Product.ProductImage')->find($id);
         if($category){
             return  $category    ;
-            
+
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 
@@ -121,18 +131,18 @@ class CategoryController extends Controller
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
                 }
-                else{   
+                else{
                     $category_find_to_update->update([
                         'image' => $filename
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
-                } 
+                }
             }
             if(empty($request->input('name'))){
                 $category_find_to_update->update([
@@ -147,16 +157,16 @@ class CategoryController extends Controller
                 ]);
                 return response()->json([
                     'status' => 'success',
-                    'message' =>  "Successfully Updated"    
+                    'message' =>  "Successfully Updated"
                 ], 201);
             }
-        }   
+        }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"    
-            ], 404); 
-        } 
+                'message' =>  "Not Found"
+            ], 404);
+        }
     }
 
     /**
@@ -174,14 +184,14 @@ class CategoryController extends Controller
             File::delete(public_path('storage/category_image/'.$filename));
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Deleted"   
+                'message' =>  "Successfully Deleted"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     private function UniqueId()
@@ -194,5 +204,80 @@ class CategoryController extends Controller
             $finalvouchernumber = 'cat'.$randomString;
         }
         return $finalvouchernumber;
+    }
+
+    public function subcategorydestroy($id)
+    {
+        $success = SubCategory::find($id);
+        if($success){
+            $success->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' =>  "Successfully Deleted"
+            ], 201);
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"
+            ], 404);
+        }
+    }
+
+    public function subcategorylist()
+    {
+        $subcategory = SubCategory::with('Category')->get();
+        return $subcategory;
+    }
+
+    public function subcategoryupdate(Request $request, $id)
+    {
+        // $data = $request->validate([
+        //     'name' => 'required|string',
+        //     'category_id' => 'required',
+        // ]);
+        $subcategory_find_to_update = SubCategory::find($id);
+        $find_category_id = Category::find($request->category_id);
+        if($subcategory_find_to_update && $find_category_id){
+            $subcategory_find_to_update->update([
+                'name' => $request->name ?? $subcategory_find_to_update->name,
+                'category_id' => $request->category_id ?? $subcategory_find_to_update->category_id
+            ]);
+            return response()->json([
+                'status' => 'success',
+                'message' =>  "Successfully Updated"
+            ], 201);
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"
+            ], 404);
+        }
+    }
+
+    public function subcategorystore(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string',
+            'category_id' => 'required',
+        ]);
+        $category_id = Category::find($request->category_id);
+        if($category_id){
+            $sub_category = SubCategory::create([
+                'name' => $data['name'],
+                'category_id' => $category_id->id,
+            ]);
+            return response()->json([
+                'status' => 'success',
+                'data' => $sub_category
+            ], 201);
+        }
+            else{
+                return response()->json([
+                    'status' => 'fail',
+                    'message' =>  "Not Found"
+                ], 404);
+            }
     }
 }

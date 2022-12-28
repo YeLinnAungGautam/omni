@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
+
+    function __construct()
+    {
+         // $this->middleware('permission:slider-list|slider-create|slider-edit|slider-delete', ['only' => ['index','store']]);
+         $this->middleware('permission:slider-list', ['only' => ['index']]);
+         $this->middleware('permission:slider-create', ['only' => ['create','store']]);
+         $this->middleware('permission:slider-edit', ['only' => ['edit','update']]);
+         $this->middleware('permission:slider-delete', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +39,7 @@ class SliderController extends Controller
     {
         //
     }
- 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -96,14 +105,14 @@ class SliderController extends Controller
         if($slider){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $slider    
-            ], 201); 
+                'data' =>  $slider
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 
@@ -150,10 +159,10 @@ class SliderController extends Controller
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
                 }
-                else{   
+                else{
                     $slider_find_to_update->update([
                         'name' => $request->slider_name ?? $slider_find_to_update->name,
                         'image' => $filename ?? $slider_find_to_update->image,
@@ -161,9 +170,9 @@ class SliderController extends Controller
                     ]);
                     return response()->json([
                         'status' => 'success',
-                        'message' =>  "Successfully Updated"    
+                        'message' =>  "Successfully Updated"
                     ], 201);
-                }   
+                }
             }
             else{
                 $slider_find_to_update->update([
@@ -172,7 +181,7 @@ class SliderController extends Controller
                 ]);
                 return response()->json([
                     'status' => 'success',
-                    'message' =>  "Successfully Updated"    
+                    'message' =>  "Successfully Updated"
                 ], 201);
             }
         }
@@ -215,7 +224,7 @@ class SliderController extends Controller
                     'message' =>  "Successfully Updated"
                 ], 201);
             }
-        } 
+        }
     }
 
     /**
@@ -233,14 +242,14 @@ class SliderController extends Controller
             File::delete(public_path('storage/slider_image/'.$filename));
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Deleted"   
+                'message' =>  "Successfully Deleted"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 }
