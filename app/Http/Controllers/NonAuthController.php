@@ -11,6 +11,8 @@ use App\Models\SubCategory;
 use App\Models\Percentages;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\User;
+use App\Models\wishlist;
 
 class NonAuthController extends Controller
 {
@@ -143,7 +145,44 @@ class NonAuthController extends Controller
         return $aboutus;
     }
 
+    public function wishlist($userid,$productid)
+    {
+        $find_product = Product::find($productid);
+        $find_user = User::find($userid);
+        if($find_user && $find_product){
+            WishList::create([
+                'user_id' => $userid,
+                'product_id' => $productid
+            ]);
+        }else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"
+            ], 404);
+        }
+    }
 
-
-
+    public function disableWishList($userid,$productid)
+    {
+        $find_user = User::find($userid);
+        if($find_user)
+        {
+            WishList::where('product_id',$productid)->firstorfail()->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' =>  "Successfully Deleted"
+            ], 201);
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "User Not Found"
+            ], 404);
+        }
+    }
+    public function listofwishlist()
+    {
+        $wishlist = WishList::with('Product','Product.ProductImage')->get();
+        return $wishlist;
+    }
 }

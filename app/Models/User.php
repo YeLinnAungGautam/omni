@@ -52,4 +52,8 @@ class User extends Authenticatable
     public function Searchlist(){
         return $this->hasMany(Searchlist::class,'user_id');
     }
+
+    public function WishList(){
+        return $this->hasManay(WishList::class,'user_id');
+    }
 }

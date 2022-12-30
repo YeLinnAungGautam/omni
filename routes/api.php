@@ -18,6 +18,7 @@ use App\Http\Controllers\TermandConditionController;
 use App\Http\Controllers\SocialController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NonAuthController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -200,3 +201,12 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
     //Search
     Route::get('/search/{product_name}/{category_id}',[ProductController::class,'search']);
+
+    //WishList 
+    Route::get('/wishlist/{userid}/{product_id}',[NonAuthController::class,'wishlist']);
+
+    //Diable WishList 
+    Route::delete('wishlist/{userid}/{product_id}',[NonAuthController::class,'disableWishList']);
+
+    // WishList List 
+    Route::get('wishlist/list',[NonAuthController::class,'listofwishlist']);

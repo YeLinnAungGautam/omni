@@ -39,4 +39,7 @@ class Product extends Model
     public function Store(){
         return $this->belongsTo(Store::class,'store_id');
     }
+    public function WishlistProduct(){
+        return $this->hasMany(WishList::class,'product_id');
+    }
 }

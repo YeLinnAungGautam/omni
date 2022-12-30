@@ -11,6 +11,7 @@ use App\Models\Store;
 use App\Models\SubCategory;
 use App\Models\SearchList;
 use App\Models\User;
+use App\Models\WishList;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
