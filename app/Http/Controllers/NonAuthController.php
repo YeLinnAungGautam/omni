@@ -12,7 +12,7 @@ use App\Models\Percentages;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\User;
-use App\Models\wishlist;
+use App\Models\WishList;
 
 class NonAuthController extends Controller
 {
@@ -22,6 +22,17 @@ class NonAuthController extends Controller
     //    $category = Category::all();
         $category = Category::with('SubCategory','Product')->get();
        return $category;
+    }
+
+    public function categoryUserList($userid)
+    {
+    //    $category = Category::all();
+        $category = Category::with('SubCategory','Product')->get();
+        $wishlist = WishList::with('Product','Product.ProductImage')->where("user_id",$userid)->get();
+        return response()->json([
+            "category" => $category,
+            'wishlist' =>  $wishlist
+        ], 200);
     }
 
 
@@ -73,6 +84,12 @@ class NonAuthController extends Controller
     {
         $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->get();
         return $product;
+    }
+
+    public function productListTest()
+    {
+      $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->paginate(1);
+      return $product;
     }
     public function productShow($id)
     {
@@ -145,6 +162,28 @@ class NonAuthController extends Controller
         return $aboutus;
     }
 
+    public function createWishList($userid,$productid)
+    {
+      $find_product = Product::find($productid);
+      $find_user = User::find($userid);
+      if($find_user && $find_product){
+          WishList::create([
+              'user_id' => $userid,
+              'product_id' => $productid
+          ]);
+          return response()->json([
+              'status' => 'success',
+
+          ], 200);
+      }else{
+          return response()->json([
+              'status' => 'fail',
+              'message' =>  "Not Found"
+          ], 404);
+      }
+  }
+
+
     public function wishlist($userid,$productid)
     {
         $find_product = Product::find($productid);
@@ -180,9 +219,9 @@ class NonAuthController extends Controller
             ], 404);
         }
     }
-    public function listofwishlist()
+    public function listofwishlist($userId)
     {
-        $wishlist = WishList::with('Product','Product.ProductImage')->get();
+        $wishlist = WishList::with('Product','Product.ProductImage','Product.Category')->where("user_id",$userId)->get();
         return $wishlist;
     }
 }

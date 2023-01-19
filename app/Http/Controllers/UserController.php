@@ -14,8 +14,13 @@ class UserController extends Controller
     //
 
     public function index(){
-      $all_staffs = User::with('roles')->whereNotIn('name', ['User', 'Customer'])->get();
+      $all_staffs = User::with('roles')->whereNotIn('name', ['User', 'Customer',])->get();
       return $all_staffs;
+    }
+
+    public function getStaffs(){
+      $all_users_with_all_their_roles = User::with('roles')->whereNotIn('name', ['User', 'Customer', ''])->get();
+      return $all_users_with_all_their_roles;
     }
 
     public function store(Request $request)

@@ -22,10 +22,12 @@ class UserSeeder extends Seeder
             'name' => 'admin',
             'email' => 'admin@gmail.com',
             'factory_name' => 'Z Trade',
-            'password' => bcrypt('admin')
+            'password' => bcrypt('admin'),
+            'profile_pic'=>"12312.jpg"
         ]);
 
         $role = Role::create(['name' => 'Admin','guard_name'=>'api']);
+        $role = Role::create(['name' => 'User','guard_name'=>'nonrole']);
 
         $permissions = Permission::pluck('id','id')->all();
 

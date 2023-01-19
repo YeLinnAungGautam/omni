@@ -35,10 +35,12 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
+Route::get('/staff/list',[UserController::class,'getStaffs']);
 Route::group(['middleware' => ['auth:sanctum']], function(){
   Route::post('/product/create',[ProductController::class,'store']);
   Route::get('/product/list',[ProductController::class,'index']);
+
+
 
   Route::get('/roleandpermission/lists',[RoleController::class,'index']);
   Route::post('/addroleandpermision/',[RoleController::class,'store']);
@@ -63,7 +65,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
   Route::delete('/product/imagedelete/{id}',[ProductController::class,'destroyImage']);
   Route::delete('/product/delete/{id}',[ProductController::class,'destroy']);
 
-
   Route::post('/category/update/{id}',[CategoryController::class,'update']);
   Route::delete('/category/delete/{id}',[CategoryController::class,'destroy']);
 
@@ -80,17 +81,12 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
   Route::post('/staff/update/{id}',[UserController::class,'update']);
   Route::delete('/staff/delete/{id}',[UserController::class,'destroy']);
 
-
   Route::delete('/role/delete/{id}',[RoleController::class,'destroy']);
-
-
 
 });
 
-
     //Category Protected Route
-    Route::get('/ztrade/index',[HomeController::class,'index']);
-
+    Route::get('/ztrade/index/{userId}',[HomeController::class,'indexAuth']);
 
     Route::get('/staffs',[UserController::class,'index']);
     Route::post('/adduser',[UserController::class,'store']);
@@ -196,17 +192,19 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     //Most Popular
     Route::get('/mostpopular',[ProductController::class,'mostpopular']);
 
+
     //Top Selling
     Route::get('/topselling',[ProductController::class,'topselling']);
-
+    Route::get('/wishlist/{userid}',[NonAuthController::class,'listofwishlist']);
+    Route::get('wishlist/list/{userId}',[NonAuthController::class,'listofwishlist']);
     //Search
     Route::get('/search/{product_name}/{category_id}',[ProductController::class,'search']);
 
-    //WishList 
-    Route::get('/wishlist/{userid}/{product_id}',[NonAuthController::class,'wishlist']);
+    //WishList
+      Route::post('/wishlist/{userid}/{product_id}',[NonAuthController::class,'createWishList']);
 
-    //Diable WishList 
-    Route::delete('wishlist/{userid}/{product_id}',[NonAuthController::class,'disableWishList']);
+    Route::delete('wishlist/remove/{userid}/{product_id}',[NonAuthController::class,'disableWishList']);
 
-    // WishList List 
-    Route::get('wishlist/list',[NonAuthController::class,'listofwishlist']);
+    //Diable WishList
+
+    // WishList List

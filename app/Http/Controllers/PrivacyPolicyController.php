@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PrivacyPolicy; 
+use App\Models\PrivacyPolicy;
 
 class PrivacyPolicyController extends Controller
 {
     public function store(Request $request)
-    { 
+    {
         $data = $request->validate([
             'description' => 'required|string',
         ]);
@@ -22,7 +22,7 @@ class PrivacyPolicyController extends Controller
     }
     public function index()
     {
-        $privacy_policy = PrivacyPolicy::all();
+        $privacy_policy = PrivacyPolicy::all()->first();
         return $privacy_policy;
     }
     public function show($id)
@@ -31,14 +31,14 @@ class PrivacyPolicyController extends Controller
         if($privacy_policy){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $privacy_policy    
-            ], 201); 
+                'data' =>  $privacy_policy
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     public function update(Request $request, $id)
@@ -53,13 +53,13 @@ class PrivacyPolicyController extends Controller
             ]);
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Updated"   
+                'message' =>  "Successfully Updated"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
+                'message' =>  "Not Found"
             ], 404);
         }
     }
@@ -70,14 +70,14 @@ class PrivacyPolicyController extends Controller
             $success->delete();
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Deleted"   
+                'message' =>  "Successfully Deleted"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 }

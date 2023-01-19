@@ -69,8 +69,9 @@ class AboutUsController extends Controller
         }
       }
       catch(Exception $e){
+        error_log($e);
         return response()->json([
-            'message' => "Too large"
+            'message' => "Too Large"
         ], 500);
       }
 
