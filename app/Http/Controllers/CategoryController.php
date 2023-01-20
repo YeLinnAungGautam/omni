@@ -53,6 +53,7 @@ class CategoryController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
+            'number' => 'string',
         ]);
         $file= $request->file('image');
         $filename= time().$file->getClientOriginalName();
@@ -60,7 +61,7 @@ class CategoryController extends Controller
         $category = Category::create([
             'name' => $data['name'],
             'image' => $filename,
-            'number' => 0,
+            'number' => $data['number'] ?? 0,
             'unique_id' => $this->UniqueId()
         ]);
         $category_image_name = Category::latest()->first()->image;
@@ -144,22 +145,26 @@ class CategoryController extends Controller
                     ], 201);
                 }
             }
-            if(empty($request->input('name'))){
-                $category_find_to_update->update([
-                    'name' => $category_find_to_update->name,
-                    'number' => 0,
-                ]);
-            }
-            else{
+            // if(empty($request->input('name'))){
+            //     $category_find_to_update->update([
+            //         'name' => $category_find_to_update->name,
+            //     ]);
+            // }
+            // if(empty($request->input('number'))){
+            //     $category_find_to_update->update([
+            //         'number' => $category_find_to_update->number
+            //     ]);
+            // }
+            // else{
                 $category_find_to_update->update([
                     'name' => $request->name ?? $category_find_to_update->name,
-                    'number' => 0,
+                    'number' => $request->number ?? $category_find_to_update->number,
                 ]);
                 return response()->json([
                     'status' => 'success',
                     'message' =>  "Successfully Updated"
                 ], 201);
-            }
+            // }
         }
         else{
             return response()->json([

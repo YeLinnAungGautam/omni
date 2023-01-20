@@ -1,9 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VERIFICATION</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Reset Password</title>
     <style>
       .header, .footer{
         background-color: #003399;
@@ -97,28 +98,25 @@
       }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="container main">
+</head>
+<body>
+<div class="container main">
       <div class="container image">
         <img src="https://webstaging.ztrademm.com/static/media/Group_7.3ef3a8143eff3f4ce296ac84360406c5.svg" alt="">
       </div>
       <div class="container header">
         <img align="center" border="0" src="https://cdn.templates.unlayer.com/assets/1597218650916-xxxxc.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 15%;max-width: 150.8px;" width="150.8">
         <p style="font-size: 11px;line-height: 0px;color: #e5eaf5;margin-bottom: 0px;font-weight: 500;">
-          THANKS FOR SIGNING UP
+          Please 
         </p>
         <p style="font-size: 18px;line-height: 10px;color: #e5eaf5;margin-bottom: 0px;font-weight: 500;">
-          Verify Your E-mail Address
+          Rest Your Password
         </p>
       </div>
 
       <div class="container f_block">
-        <p style="text-transform:uppercase">Hi <b>{{$email_data['name']}}</b></p>
-        <p>You're almost ready to get started. Please click on the button below to verify your email address and become a registered member on our platform</p>
         <div class="verify_button">
-          <a href="https://appstaging.ztrademm.com/verify?code={{$email_data['verification_code']}}" class="btn btn-primary">Click Here To Verify</a>
-          <!-- <a href="http://127.0.0.1:8000/verify?code={{$email_data['verification_code']}}" class="btn btn-primary">Click Here To Verify</a> -->
+            <a href="{{$status}}">Click Here to Reset</a>
         </div>
         <p style="margin-top:13px;margin-bottom:0">Thanks</p>
         <p style="margin:0px">The Company Team</p>
@@ -144,5 +142,5 @@
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  </body>
+</body>
 </html>
