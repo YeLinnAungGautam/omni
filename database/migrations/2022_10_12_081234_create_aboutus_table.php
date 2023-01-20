@@ -15,10 +15,10 @@ class CreateAboutusTable extends Migration
     {
         Schema::create('about_us', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->longText('description');
             $table->timestamps();
         });
-    } 
+    }
 
     /**
      * Reverse the migrations.

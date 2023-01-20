@@ -107,6 +107,7 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 
     //Category
     Route::get('/category/list',[NonAuthController::class,'categoryList']);
+    Route::get('/category/list/user/{userid}',[NonAuthController::class,'categoryUserList']);
     Route::get('/category/show/{id}',[NonAuthController::class,'categoryListShow']);
 
     // SubCategory
@@ -128,6 +129,7 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 
     //Product
     Route::get('/product/list',[NonAuthController::class,'productList']);
+    Route::get('/product/list/pgtest',[NonAuthController::class,'productListTest']);
     Route::get('/product/show/{id}',[NonAuthController::class,'productShow']);
 
     //USer

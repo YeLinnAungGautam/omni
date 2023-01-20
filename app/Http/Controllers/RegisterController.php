@@ -16,18 +16,18 @@ class RegisterController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
-            'profile_image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
+            'profile_image' => 'nullable|image:jpeg,png,jpg,gif,svg|max:2048',
             'factory' => 'required|string',
             'password' => 'required',
         ]);
-        $file= $request->file('profile_image');
-        $filename= time().$file->getClientOriginalName();
-        $file-> move(public_path('storage/profile_pictures'), $filename);
+        // $file= $request->file('profile_image');
+        // $filename= time().$file->getClientOriginalName();
+        // $file-> move(public_path('storage/profile_pictures'), $filename);
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'factory_name' => $data['factory'],
-            'profile_pic' => $filename,
+            'profile_pic' => "user_profile.jpg",
             'password'=> Hash::make($data['password']),
             'verification_code' => sha1(time()),
         ]);
@@ -109,7 +109,8 @@ class RegisterController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return ["user" => $user];
+        $user_permissions = $user->getAllPermissions();
+        return ["user" => $user,'permissions' => $user_permissions];
     }
 
     public function update(Request $request,$id)

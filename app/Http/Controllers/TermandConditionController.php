@@ -8,7 +8,7 @@ use App\Models\TermAndCondition;
 class TermandConditionController extends Controller
 {
     public function store(Request $request)
-    { 
+    {
         $data = $request->validate([
             'description' => 'required|string',
         ]);
@@ -22,7 +22,7 @@ class TermandConditionController extends Controller
     }
     public function index()
     {
-        $terms_and_condition = TermAndCondition::all();
+        $terms_and_condition = TermAndCondition::all()->first();
         return $terms_and_condition;
     }
     public function show($id)
@@ -31,14 +31,14 @@ class TermandConditionController extends Controller
         if($$terms_and_condition){
             return response()->json([
                 'status' => 'success',
-                'data' =>  $$terms_and_condition    
-            ], 201); 
+                'data' =>  $$terms_and_condition
+            ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
     public function update(Request $request, $id)
@@ -53,13 +53,13 @@ class TermandConditionController extends Controller
             ]);
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Updated"   
+                'message' =>  "Successfully Updated"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
+                'message' =>  "Not Found"
             ], 404);
         }
     }
@@ -70,14 +70,14 @@ class TermandConditionController extends Controller
             $success->delete();
             return response()->json([
                 'status' => 'success',
-                'message' =>  "Successfully Deleted"   
+                'message' =>  "Successfully Deleted"
             ], 201);
         }
         else{
             return response()->json([
                 'status' => 'fail',
-                'message' =>  "Not Found"   
-            ], 404); 
+                'message' =>  "Not Found"
+            ], 404);
         }
     }
 }

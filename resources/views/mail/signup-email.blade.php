@@ -116,6 +116,9 @@
       <div class="container f_block">
         <p style="text-transform:uppercase">Hi <b>{{$email_data['name']}}</b></p>
         <p>You're almost ready to get started. Please click on the button below to verify your email address and become a registered member on our platform</p>
+        <p>
+        "https://appstaging.ztrademm.com/verify?code={{$email_data['verification_code']}}"
+        </p>
         <div class="verify_button">
           <a href="https://appstaging.ztrademm.com/verify?code={{$email_data['verification_code']}}" class="btn btn-primary">Click Here To Verify</a>
           <!-- <a href="http://127.0.0.1:8000/verify?code={{$email_data['verification_code']}}" class="btn btn-primary">Click Here To Verify</a> -->
