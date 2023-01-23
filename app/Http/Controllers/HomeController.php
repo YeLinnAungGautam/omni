@@ -42,6 +42,7 @@ class HomeController extends Controller
       $store = Store::with('Slider')->get();
       $banners = Banner::all();
       $wishlist = WishList::with('Product','Product.ProductImage')->where("user_id",$userId)->get();
+      $productSuggestion = Product::pluck('name')->toArray();
 
       return response()->json([
         "categories" => $category,
@@ -51,8 +52,14 @@ class HomeController extends Controller
         "mostpopular" => $most_popular,
         "topselling" => $top_selling,
         "wishlist" => $wishlist,
-        "banners" => $banners
+        "banners" => $banners,
+        "productSuggestion" => $productSuggestion
       ], 200);
+    }
+
+    public function product(){
+        $product = Product::pluck('name')->toArray();
+        return $product;
     }
 
     public function index(){
@@ -77,6 +84,7 @@ class HomeController extends Controller
       ])->get();
       $store = Store::with('Slider')->get();
       $banners = Banner::all();
+      $productSuggestion = Product::pluck('name')->toArray();
 
 
       return response()->json([
@@ -87,7 +95,8 @@ class HomeController extends Controller
         "mostpopular" => $most_popular,
         "topselling" => $top_selling,
         "banners" => $banners,
-        "wishlist" => ""
+        "wishlist" => [],
+        "productSuggestion" => $productSuggestion
       ], 200);
     }
 }
