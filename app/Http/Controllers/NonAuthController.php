@@ -57,6 +57,21 @@ class NonAuthController extends Controller
         }
     }
 
+    public function categoryListShowTest($categoryId)
+    {
+        $category = Category::where("id",$categoryId)->with('SubCategory','Product','Product.ProductImage')->paginate(1);
+        if($category){
+            return  $category;
+
+        }
+        else{
+            return response()->json([
+                'status' => 'fail',
+                'message' =>  "Not Found"
+            ], 404);
+        }
+    }
+
     public function subCategoryList()
     {
         $subcategory = SubCategory::with('Category')->get();
@@ -82,13 +97,13 @@ class NonAuthController extends Controller
 
     public function productList()
     {
-        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->get();
+        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->limit(30)->get();
         return $product;
     }
 
-    public function productListTest()
+    public function productListTest($categoryId)
     {
-      $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->paginate(1);
+      $product = Product::where("category_id",$categoryId)->with('Category','SubCategory','Percentage','Store','ProductImage')->orderBy('id', 'desc')->paginate(1);
       return $product;
     }
     public function productShow($id)

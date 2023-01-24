@@ -43,6 +43,7 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 
     Route::get('/slider/list',[NonAuthController::class,'sliderList']);
     //Category Protected Route
+    Route::get('/ztrade/index/product',[HomeController::class,'product']);
     Route::get('/ztrade/index',[HomeController::class,'index']);
     Route::get('/roleandpermission/lists',[RoleController::class,'index']);
     Route::post('/addroleandpermision/',[RoleController::class,'store']);
@@ -106,7 +107,9 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
     Route::post('/login',[RegisterController::class,'login']);
 
     //Category
+
     Route::get('/category/list',[NonAuthController::class,'categoryList']);
+    Route::get('/category/list/pgtest/{categoryId}',[NonAuthController::class,'categoryListShowTest']);
     Route::get('/category/list/user/{userid}',[NonAuthController::class,'categoryUserList']);
     Route::get('/category/show/{id}',[NonAuthController::class,'categoryListShow']);
 
@@ -129,7 +132,7 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 
     //Product
     Route::get('/product/list',[NonAuthController::class,'productList']);
-    Route::get('/product/list/pgtest',[NonAuthController::class,'productListTest']);
+    Route::get('/product/list/pgtest/{categoryId}',[NonAuthController::class,'productListTest']);
     Route::get('/product/show/{id}',[NonAuthController::class,'productShow']);
 
     //USer
