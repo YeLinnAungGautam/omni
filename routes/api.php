@@ -211,3 +211,4 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     // WishList List
     // Site Setting
     Route::post('sitsetting/save',[SiteSettingController::class,'upload']);
+    Route::post('sitsetting/update/{id}',[SiteSettingController::class,'update']);

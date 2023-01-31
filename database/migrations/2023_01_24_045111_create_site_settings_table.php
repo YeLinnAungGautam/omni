@@ -15,9 +15,13 @@ class CreateSiteSettingsTable extends Migration
     {
         Schema::create('site_settings', function (Blueprint $table) {
             $table->id();
+            $table->string('mobile_login_icon');
+            $table->string('web_login_icon');
+            $table->string('mobile_loading_icon');
+            $table->string('web_register_icon');
+            $table->string('web_icon');
+            $table->string('web_tab_icon');
             $table->timestamps();
-            $table->string('logo');
-            $table->string('sample');
         });
     }
 
