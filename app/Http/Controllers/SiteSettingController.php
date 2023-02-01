@@ -84,10 +84,6 @@ class SiteSettingController extends Controller
                 $image_find_to_update->update([
                     'mobile_login_icon' => $imageone
                 ]);
-                return response()->json([
-                    'status' => 'success',
-                    'message' => "Icons Are Saved Successfully"
-                ], 201);
             }
             if($request->file('web_login_icon') != null) {
                 $web_login_icon_image = $request->file('web_login_icon');
@@ -99,13 +95,55 @@ class SiteSettingController extends Controller
                 $image_find_to_update->update([
                     'web_login_icon' => $imagetwo
                 ]);
-                return response()->json([
-                    'status' => 'success',
-                    'message' => "Icons Are Saved Successfully"
-                ], 201);
             }
-            
+            if($request->file('mobile_loading_icon') != null) {
+                $mobile_loading_icon_image = $request->file('mobile_loading_icon');
+                File::delete(public_path('storage/site_setting/'.$image_find_to_update->mobile_loading_icon));
+                $destinationPath = 'storage/site_setting';
+                $imagethree = "mobile_loading_icon" . "." . $mobile_loading_icon_image->getClientOriginalExtension();
+                $mobile_loading_icon_image->move($destinationPath, $imagethree);
+                $input['mobile_loading_icon'] = "$imagethree";
+                $image_find_to_update->update([
+                    'mobile_loading_icon' => $imagethree
+                ]);
+            }
+            if($request->file('web_register_icon') != null){
+                $web_register_icon_image = $request->file('web_register_icon');
+                File::delete(public_path('storage/site_setting/'.$image_find_to_update->web_register_icon));
+                $destinationPath = 'storage/site_setting';
+                $imagefour = "web_register_icon" . "." . $web_register_icon_image->getClientOriginalExtension();
+                $web_register_icon_image->move($destinationPath, $imagefour);
+                $input['web_register_icon'] = "$imagefour";
+                $image_find_to_update->update([
+                    'web_register_icon' => $imagefour
+                ]);
+            }
+            if($request->file('web_icon') != null){
+                $web_icon_image = $request->file('web_icon');
+                File::delete(public_path('storage/site_setting/'.$image_find_to_update->web_icon));
+                $destinationPath = 'storage/site_setting';
+                $imagefive = "web_icon" . "." . $web_icon_image->getClientOriginalExtension();
+                $web_icon_image->move($destinationPath, $imagefive);
+                $input['web_icon'] = "$imagefive";
+                $image_find_to_update->update([
+                    'web_icon' => $imagefive
+                ]);
+            }
+            if($request->file('web_tab_icon') != null){
+                $web_tab_icon_image = $request->file('web_tab_icon');
+                File::delete(public_path('storage/site_setting/'.$image_find_to_update->web_tab_icon));
+                $destinationPath = 'storage/site_setting';
+                $imagesix = "web_tab_icon" . "." . $web_tab_icon_image->getClientOriginalExtension();
+                $web_tab_icon_image->move($destinationPath, $imagesix);
+                $input['web_tab_icon'] = "$imagesix";
+                $image_find_to_update->update([
+                    'web_tab_icon' => $imagesix
+                ]);
+            }
+            return response()->json([
+                'status' => 'success',
+                'message' => "Icons Are Saved Successfully"
+            ], 201);
         }
     }
-
 }
