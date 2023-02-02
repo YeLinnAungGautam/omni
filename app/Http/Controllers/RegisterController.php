@@ -13,6 +13,7 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
+      try{
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
@@ -31,6 +32,7 @@ class RegisterController extends Controller
             'password'=> Hash::make($data['password']),
             'verification_code' => sha1(time()),
         ]);
+        $user->assignRole("User");
         if($user != null){
             MailController::sendSignupEmail($user->name, $user->email, $user->verification_code);
             return response()->json([
@@ -44,6 +46,13 @@ class RegisterController extends Controller
                 'message' =>  "Not Found"
             ], 404);
         }
+      }catch(\Exception $e){
+        return response()->json([
+            'status' => 'fail',
+            'message' =>  "Cannot Sent to Your Email: Please Connect to service@ztrademm.com"
+        ], 404);
+      }
+
     }
 
     public function verifyUser(Request $request)

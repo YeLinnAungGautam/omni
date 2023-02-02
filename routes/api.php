@@ -36,6 +36,8 @@ use SebastianBergmann\CodeCoverage\Util\Percentage;
 //     return $request->user();
 // });
 Route::get('/staff/list',[UserController::class,'getStaffs']);
+Route::get('/product/list/pg',[ProductController::class,'productList']);
+Route::get('/product/list/pg/{productName}/{item_id}',[ProductController::class,'productListSearch']);
 Route::group(['middleware' => ['auth:sanctum']], function(){
   Route::post('/product/create',[ProductController::class,'store']);
   Route::get('/product/list',[ProductController::class,'index']);

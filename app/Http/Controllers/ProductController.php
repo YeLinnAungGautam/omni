@@ -34,11 +34,48 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+     public function index()
     {
-        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->get();
+        try{
+             $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->count();
+        return $product;
+        }
+        catch(\Exception $e){
+             return $e->getMessage();
+        }
+
+    }
+
+    public function productList()
+    {
+        $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->paginate(100);
         return $product;
     }
+
+    public function productListSearch($productName,$item_id)
+    {
+      if($item_id == 'null')
+      {
+          $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where('name','LIKE',"$productName%")->paginate(100);
+          return $product;
+      }
+      else{
+          $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where('item_id','LIKE',"$item_id%")->paginate(100);
+          return $product;
+      }
+    }public function productListSearch($productName,$item_id)
+    {
+      if($item_id == 'null')
+      {
+          $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where('name','LIKE',"$productName%")->paginate(100);
+          return $product;
+      }
+      else{
+          $product = Product::with('Category','SubCategory','Percentage','Store','ProductImage')->where('item_id','LIKE',"$item_id%")->paginate(100);
+          return $product;
+      }
+    }
+
 
 
 
