@@ -27,7 +27,8 @@ class UserSeeder extends Seeder
         ]);
 
         $role = Role::create(['name' => 'Admin','guard_name'=>'api']);
-
+        //clear
+        //$role = Role::create(['name' => 'User','guard_name'=>'nonrole']);
 
         $permissions = Permission::pluck('id','id')->all();
 

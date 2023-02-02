@@ -19,6 +19,7 @@ use App\Http\Controllers\SocialController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NonAuthController;
+use App\Http\Controllers\SiteSettingController;
 use SebastianBergmann\CodeCoverage\Util\Percentage;
 
 /*
@@ -210,3 +211,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     //Diable WishList
 
     // WishList List
+    // Site Setting
+    Route::post('sitsetting/save',[SiteSettingController::class,'upload']);
+    Route::post('sitsetting/update/{id}',[SiteSettingController::class,'update']);

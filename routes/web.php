@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\ResetPasswordController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,3 +26,9 @@ Route::get('/', function () {
 // Route::get('/slider/list',[SliderController::class,'index']);
 // Route::get('/slider/list',[SliderController::class,'index']);
 Route::get('/verify',[RegisterController::class,'verifyUser'])->name('verify.user');
+
+//Password Reset 
+Route::get('/passwordforgot',[ResetPasswordController::class,'passwordforgot']);
+Route::post('/forgot/password',[ResetPasswordController::class,'forgetpassword']);
+Route::get('/reset-password',[ResetPasswordController::class,'resetpassword']);
+Route::post('/updateresetpassword',[ResetPasswordController::class,'updatepassword']);
