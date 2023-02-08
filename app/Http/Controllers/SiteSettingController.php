@@ -12,13 +12,13 @@ class SiteSettingController extends Controller
     //
     public function upload(Request $request)
     {
-        $data = $request->validate([
-            'mobile_login_icon' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
-            'web_login_icon' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        // $data = $request->validate([
+        //     'mobile_login_icon' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
+        //     'web_login_icon' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
+        // ]);
 
         $input = $request->all();
-
+        
         if($mobile_login_icon_image = $request->file('mobile_login_icon'))
         {
             $destinationPath = 'storage/site_setting';
@@ -61,13 +61,12 @@ class SiteSettingController extends Controller
             $web_tab_icon_image->move($destinationPath, $imagesix);
             $input['web_tab_icon'] = "$imagesix";
         }
-        
         SiteSetting::create($input);
         return response()->json([
             'status' => 'success',
             'message' => "Icons Are Saved Successfully"
-        ], 201);
-    }
+        ]);
+    } 
     public function update($id,Request $request)
     {
         $image_find_to_update = SiteSetting::find($id);
@@ -140,10 +139,24 @@ class SiteSettingController extends Controller
                     'web_tab_icon' => $imagesix
                 ]);
             }
+            $image_find_to_update->update([
+                'facebook_url' => $request->facebook_url ?? $image_find_to_update->facebook_url,
+                'instagram_url' => $request->instagram_url ?? $image_find_to_update->instagram_url,
+                'youtube_url' => $request->youtube_url ?? $image_find_to_update->youtube_url,
+                'linkedin_url' => $request->linkedin_url ?? $image_find_to_update->linkedin_url,
+                'phonenumber' => $request->phonenumber ?? $image_find_to_update->phonenumber,
+                'address' => $request->address ?? $image_find_to_update->address,
+                'short_description' => $request->short_description ?? $image_find_to_update->short_description,
+                'email' => $request->email ?? $image_find_to_update->email
+            ]);
             return response()->json([
                 'status' => 'success',
                 'message' => "Icons Are Saved Successfully"
             ], 201);
         }
+    }
+    public function list(){
+        $sitesetting = SiteSetting::all();
+       return $sitesetting;
     }
 }

@@ -21,6 +21,14 @@ class CreateSiteSettingsTable extends Migration
             $table->string('web_register_icon');
             $table->string('web_icon');
             $table->string('web_tab_icon');
+            $table->string('facebook_url')->default('NULL');
+            $table->string('instagram_url')->default('NULL');
+            $table->string('youtube_url')->default('NULL');
+            $table->string('linkedin_url')->default('NULL');
+            $table->string('phonenumber')->default('NULL');
+            $table->string('address')->default('NULL');
+            $table->string('short_description')->default('NULL');
+            $table->string('email')->default('NULL');
             $table->timestamps();
         });
     }

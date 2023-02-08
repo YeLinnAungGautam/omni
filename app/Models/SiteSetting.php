@@ -15,5 +15,13 @@ class SiteSetting extends Model
         'web_register_icon',
         'web_icon',
         'web_tab_icon',
+        'facebook_url',
+        'instagram_url',
+        'youtube_url',
+        'linkedin_url',
+        'phonenumber',
+        'address',
+        'short_description',
+        'email'
     ];
 }
