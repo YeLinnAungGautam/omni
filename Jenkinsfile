@@ -4,7 +4,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   environment {
-    HEROKU_API_KEY = credentials('heroku-api-key')
+    HEROKU_API_KEY = credentials('hroku-api-key')
     IMAGE_NAME = 'darinpope/omni'
     IMAGE_TAG = 'latest'
     APP_NAME = 'omni'
