@@ -10,6 +10,17 @@ pipeline {
     APP_NAME = 'omni'
   }
   stages {
+    stage('Docker') {
+      steps {
+        sh '''
+        docker info 
+        docker version
+        docker compose version
+        curl --version
+        
+        '''
+      }
+    }
     stage('Build') {
       steps {
         sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
