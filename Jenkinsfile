@@ -5,14 +5,14 @@ pipeline {
   }
   environment {
     HEROKU_API_KEY = credentials('hroku-api-key')
-    IMAGE_NAME = 'darinpope/omni'
+    IMAGE_NAME = 'ztrade/omni'
     IMAGE_TAG = 'latest'
     APP_NAME = 'omni'
   }
   stages {
     stage('Build') {
       steps {
-        sh 'docker build .'
+        sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
       }
     }
     stage('Login') {
