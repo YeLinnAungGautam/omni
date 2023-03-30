@@ -42,8 +42,8 @@ pipeline {
     stage('Push to Heroku registry') {
       steps {
         bat '''
-          docker tag ztrade/omni:latest registry.heroku.com/omni/web
-          docker push registry.heroku.com/omni/web
+          docker tag ztrade/omni:latest registry.heroku.com/polar-badlands-80394/web
+          docker push registry.heroku.com/polar-badlands-80394/web
         '''
       }
     }
