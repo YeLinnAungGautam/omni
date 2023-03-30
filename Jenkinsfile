@@ -40,7 +40,7 @@ pipeline {
       steps {
         bat '''
           docker tag ztrade/omni:latest registry.heroku.com/omni/web
-          
+          docker push registry.heroku.com/omni/web
         '''
       }
     }
