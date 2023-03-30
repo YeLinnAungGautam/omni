@@ -39,15 +39,15 @@ pipeline {
     stage('Push to Heroku registry') {
       steps {
         bat '''
-          docker tag $IMAGE_NAME:$IMAGE_TAG registry.heroku.com/$APP_NAME/web
-          docker push registry.heroku.com/$APP_NAME/web
+          docker tag ztrade/omni:latest registry.heroku.com/omni/web
+          docker push registry.heroku.com/omni/web
         '''
       }
     }
     stage('Release the image') {
       steps {
         bat '''
-          heroku container:release web --app=$APP_NAME
+          heroku container:release web --app=omni
         '''
       }
     }
