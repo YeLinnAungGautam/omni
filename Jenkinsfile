@@ -5,6 +5,7 @@ pipeline {
   }
   environment {
     HEROKU_API_KEY = credentials('hroku-api-key')
+    DOCKERHUB_CREDENTIALS=credentials('docker')
     IMAGE_NAME = 'ztrade/omni'
     IMAGE_TAG = 'latest'
     APP_NAME = 'omni'
@@ -33,12 +34,13 @@ pipeline {
     }
     stage('Login') {
       steps {
-        bat 'echo 7ae283b4-f590-4fc8-95ba-f37abadd54b0 | docker login --username=_ --password=6c39844f-6a90-4a52-ac4e-d7d779a65992 registry.heroku.com'
+        bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin registry.heroku.com'
       }
     }
     stage('Push to Heroku registry') {
       steps {
         bat '''
+          heroku login
           docker tag ztrade/omni:latest registry.heroku.com/omni/web
           docker push registry.heroku.com/omni/web
         '''
@@ -47,7 +49,7 @@ pipeline {
     stage('Release the image') {
       steps {
         bat '''
-          heroku container:release web --app=omni
+          heroku container:release web
         '''
       }
     }
