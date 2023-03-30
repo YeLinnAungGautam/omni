@@ -35,7 +35,7 @@ pipeline {
     stage('Login') {
       steps {
         bat 'echo %DOCKERHUB_CREDENTIALS_PSW%'
-        bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin registry.heroku.com'
+        bat 'echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin registry.heroku.com'
       }
     }
     stage('Push to Heroku registry') {
