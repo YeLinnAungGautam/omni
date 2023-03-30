@@ -33,7 +33,7 @@ pipeline {
     }
     stage('Login') {
       steps {
-        bat 'echo 7ae283b4-f590-4fc8-95ba-f37abadd54b0 | docker login --username=_ --password=$(heroku auth:token) registry.heroku.com'
+        bat 'echo 7ae283b4-f590-4fc8-95ba-f37abadd54b0 | docker login --username=_ --password=6c39844f-6a90-4a52-ac4e-d7d779a65992 registry.heroku.com'
       }
     }
     stage('Push to Heroku registry') {
