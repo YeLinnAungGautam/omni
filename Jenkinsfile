@@ -49,7 +49,7 @@ pipeline {
     }
     stage('Release the image') {
       steps {
-        sh '''
+        bat '''
           heroku container:release web --app=polar-badlands-80394
         '''
       }
