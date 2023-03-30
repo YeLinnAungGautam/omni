@@ -6,6 +6,7 @@ pipeline {
   environment {
     HEROKU_API_KEY = credentials('hroku-api-key')
     DOCKERHUB_CREDENTIALS=credentials('docker')
+    HEROKU_TOKEN=credentials('heroku-token')
     IMAGE_NAME = 'ztrade/omni'
     IMAGE_TAG = 'latest'
     APP_NAME = 'omni'
@@ -35,7 +36,7 @@ pipeline {
     stage('Login') {
       steps {
         bat 'echo %DOCKERHUB_CREDENTIALS_PSW%'
-        bat 'echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin registry.heroku.com'
+        bat 'echo %HEROKU_API_KEY% | docker login --username=_ --password=%HEROKU_TOKEN% registry.heroku.com'
       }
     }
     stage('Push to Heroku registry') {
